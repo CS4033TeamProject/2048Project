@@ -1,5 +1,4 @@
 import random
-from xmlrpc.client import boolean
 
 class TwentyFourtyEight:
     def __init__(self, length = 4):
@@ -81,8 +80,9 @@ class TwentyFourtyEight:
         return self.board
         
     
-    def stepUp(self):
-        pass
+    def stepUp(self) -> list:
+        for r in range(0, self.length):
+            pass
 
     def combineRow(self, origionalRow: list) -> list:
         # Create copy of origionalRow
