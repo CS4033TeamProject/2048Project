@@ -78,11 +78,38 @@ class TwentyFourtyEight:
             self.insertTile()
 
         return self.board
-        
     
     def stepUp(self) -> list:
-        for r in range(0, self.length):
-            pass
+        # RowColumn
+        # Row traversal: 00 01 02 03 10 11
+        # Column traversal: 00 10 20 30 10
+        insert = False
+
+        for c in range(0, self.length):
+            tempRow = []
+
+            for r in range(0, self.length):
+                tempRow.append(self.board[r][c])
+            
+            print("Temp row: ", end = '')
+            print(tempRow)
+            
+            newRow = self.moveRow(self.combineRow(tempRow))
+
+            print("New row: ", end = '')
+            print(newRow)
+
+            for rr in range(0, self.length):
+                self.board[rr][c] = newRow[rr]
+            
+            if self.board[r] != newRow:
+                self.board[r] = newRow
+                insert = True
+        
+        if insert:
+            self.insertTile()
+
+        return self.board
 
     def combineRow(self, origionalRow: list) -> list:
         # Create copy of origionalRow
