@@ -164,13 +164,14 @@ function AgentInputManager() {
 
   AgentInputManager.prototype.startAgent = function (event) {
     event.preventDefault();
-    console.log("Starting Agent");
-    this.emit("startAgent");
+    console.log("Emitting startAgent");
+    const startAgentEvent = new CustomEvent('startAgent');
+    document.dispatchEvent(startAgentEvent);
   };
 
   AgentInputManager.prototype.stopAgent = function (event) {
     event.preventDefault();
-    console.log("Stopping Agent");
+    console.log("Emitting stopAgent");
     this.emit("stopAgent");
   };
 
