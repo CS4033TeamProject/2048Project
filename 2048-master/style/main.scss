@@ -455,6 +455,10 @@ hr {
   @include clearfix;
 }
 
+.below-game {
+  @include clearfix;
+}
+
 .game-intro {
   float: left;
   line-height: 42px;

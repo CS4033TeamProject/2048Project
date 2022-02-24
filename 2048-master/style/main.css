@@ -512,6 +512,12 @@ hr {
   display: block;
   clear: both; }
 
+.below-game {
+  content: "";
+  padding: 20px 20px;
+  display: block;
+  clear: both; }
+
 .game-intro {
   float: left;
   line-height: 42px;
@@ -522,6 +528,34 @@ hr {
   background: #8f7a66;
   border-radius: 3px;
   padding: 0 20px;
+  text-decoration: none;
+  color: #f9f6f2;
+  height: 40px;
+  line-height: 42px;
+  display: block;
+  text-align: center;
+  float: right; }
+
+.start-agent-button {
+  display: inline-block;
+  background: #8f7a66;
+  border-radius: 3px;
+  padding: 0 20px;
+  margin: 0 20px;
+  text-decoration: none;
+  color: #f9f6f2;
+  height: 40px;
+  line-height: 42px;
+  display: block;
+  text-align: center;
+  float: left; }
+
+.stop-agent-button {
+  display: inline-block;
+  background: #8f7a66;
+  border-radius: 3px;
+  padding: 0 20px;
+  margin: 0 20px;
   text-decoration: none;
   color: #f9f6f2;
   height: 40px;
