@@ -1,6 +1,6 @@
 function Agent(){
     this.events = {};
-
+    this.intervalID;
     console.log("Agent Called");
     this.state = "stopped";
     this.listen();
@@ -41,12 +41,13 @@ Agent.prototype.startAgent = function (event) {
     console.log("Start Agent event called");
     this.state = "started";
     //Make a move every second
-    setInterval(this.makeMove(), 1000);
+    this.intervalID = window.setInterval(this.makeMove, 1000);
 }
 
 Agent.prototype.stopAgent = function (event) {
     event.preventDefault();
     this.state = "stopped";
+    window.clearInterval(this.intervalID);
 }
 
 Agent.prototype.makeMove = function () {

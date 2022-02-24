@@ -172,7 +172,8 @@ function AgentInputManager() {
   AgentInputManager.prototype.stopAgent = function (event) {
     event.preventDefault();
     console.log("Emitting stopAgent");
-    this.emit("stopAgent");
+    const stopAgentEvent = new CustomEvent('stopAgent');
+    document.dispatchEvent(stopAgentEvent);
   };
 
   AgentInputManager.prototype.bindButtonPress = function (selector, fn) {
