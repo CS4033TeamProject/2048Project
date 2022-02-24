@@ -1,4 +1,4 @@
-function AgentInputManager() {
+function KeyboardInputManager() {
   this.events = {};
 
   if (window.navigator.msPointerEnabled) {
@@ -15,14 +15,14 @@ function AgentInputManager() {
   this.listen();
 }
 
-AgentInputManager.prototype.on = function (event, callback) {
+KeyboardInputManager.prototype.on = function (event, callback) {
   if (!this.events[event]) {
     this.events[event] = [];
   }
   this.events[event].push(callback);
 };
 
-AgentInputManager.prototype.emit = function (event, data) {
+KeyboardInputManager.prototype.emit = function (event, data) {
   var callbacks = this.events[event];
   if (callbacks) {
     callbacks.forEach(function (callback) {
@@ -31,7 +31,7 @@ AgentInputManager.prototype.emit = function (event, data) {
   }
 };
 
-AgentInputManager.prototype.listen = function () {
+KeyboardInputManager.prototype.listen = function () {
   var self = this;
 
   var map = {
@@ -127,17 +127,17 @@ AgentInputManager.prototype.listen = function () {
   });
 };
 
-AgentInputManager.prototype.restart = function (event) {
+KeyboardInputManager.prototype.restart = function (event) {
   event.preventDefault();
   this.emit("restart");
 };
 
-AgentInputManager.prototype.keepPlaying = function (event) {
+KeyboardInputManager.prototype.keepPlaying = function (event) {
   event.preventDefault();
   this.emit("keepPlaying");
 };
 
-AgentInputManager.prototype.bindButtonPress = function (selector, fn) {
+KeyboardInputManager.prototype.bindButtonPress = function (selector, fn) {
   var button = document.querySelector(selector);
   button.addEventListener("click", fn.bind(this));
   button.addEventListener(this.eventTouchend, fn.bind(this));
