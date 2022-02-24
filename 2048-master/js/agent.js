@@ -1,6 +1,6 @@
 function Agent(){
     this.state = "stopped";
-    this.listen();
+    //this.listen();
 }
 
 Agent.prototype.startAgent = function () {
@@ -18,6 +18,7 @@ Agent.prototype.stopAgent = function () {
 Agent.prototype.makeMove = function () {
     //Assigns move to a random integer from 0 to 3
     var move = Math.floor(Math.random() * 4);
-        this.emit("agent-move", move);
+    const moveEvent = new CustomEvent('agent-move', { detail: move});
+    document.dispatchEvent(moveEvent);
 }
 
