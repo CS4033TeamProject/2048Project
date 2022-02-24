@@ -13,7 +13,8 @@ class Game:
                 }
 
         self.move = {
-                "move": None
+                "move": None,
+                "moveNumber" : 0
                 }
 
 GAME = Game()
