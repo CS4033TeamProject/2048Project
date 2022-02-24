@@ -89,7 +89,7 @@ function AgentInputManager() {
         if (!modifiers && event.which === 82) {
             self.restart.call(self, event);
         }
-        });
+    });
   
     // Respond to button presses
     this.bindButtonPress(".start-agent-button", this.startAgent);
@@ -161,19 +161,24 @@ function AgentInputManager() {
     event.preventDefault();
     this.emit("keepPlaying");
   };
-  
+
+  AgentInputManager.prototype.startAgent = function (event) {
+    event.preventDefault();
+    console.log("Starting Agent");
+    this.emit("startAgent");
+  };
+
+  AgentInputManager.prototype.stopAgent = function (event) {
+    event.preventDefault();
+    console.log("Stopping Agent");
+    this.emit("stopAgent");
+  };
+
   AgentInputManager.prototype.bindButtonPress = function (selector, fn) {
     var button = document.querySelector(selector);
     button.addEventListener("click", fn.bind(this));
     button.addEventListener(this.eventTouchend, fn.bind(this));
   };
 
-  AgentInputManager.prototype.startAgent = function (event) {
-      event.preventDefault();
-      this.emit("startAgent");
-  }
-  AgentInputManager.prototype.startAgent = function (event) {
-    event.preventDefault();
-    this.emit("stopAgent");
-}
+
   

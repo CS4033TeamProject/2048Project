@@ -3,6 +3,8 @@ function Agent(){
     //this.listen();
 }
 
+document.addEventListener("start-agent", startAgent);
+
 Agent.prototype.startAgent = function () {
     state = "started";
     while(this.state == "started"){
