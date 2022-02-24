@@ -8,4 +8,4 @@ target/
 
 # Python
 __pycache__/
-*.py
+*.pyc
