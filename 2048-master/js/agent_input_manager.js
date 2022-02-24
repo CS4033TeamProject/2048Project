@@ -46,7 +46,11 @@ function AgentInputManager() {
       87: 0, // W
       68: 1, // D
       83: 2, // S
-      65: 3  // A
+      65: 3, // A
+      100: 0,//Agent Up
+      101: 1,//Agent Right
+      102: 2,//Agent Down
+      103: 3 //Agent Left
     };
   
     // Respond to direction keys
@@ -67,6 +71,25 @@ function AgentInputManager() {
         self.restart.call(self, event);
       }
     });
+
+    // Respond to agent
+    document.addEventListener("agent-move", function (event) {
+        var modifiers = event.altKey || event.ctrlKey || event.metaKey ||
+                        event.shiftKey;
+        var mapped    = map[event.which];
+    
+        if (!modifiers) {
+            if (mapped !== undefined) {
+            event.preventDefault();
+            self.emit("move", mapped);
+            }
+        }
+    
+        // R key restarts the game
+        if (!modifiers && event.which === 82) {
+            self.restart.call(self, event);
+        }
+        });
   
     // Respond to button presses
     this.bindButtonPress(".start-agent-button", this.startAgent);
