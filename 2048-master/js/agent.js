@@ -52,12 +52,11 @@ Agent.prototype.stopAgent = function (event) {
 
 Agent.prototype.makeMove = function () {
     console.log("Moving");
-    if(this.state === "started"){
-        //Assigns move to a random integer from 0 to 3
-        var move = Math.floor(Math.random() * 4);
-        const moveEvent = new CustomEvent('agent-move', { detail: move});
-        document.dispatchEvent(moveEvent);
-    }
+    //Assigns move to a random integer from 0 to 3
+    var move = Math.floor(Math.random() * 4 + 100);
+    const moveEvent = new CustomEvent("agent-move", { detail: move});
+    document.dispatchEvent(moveEvent);
+
     
 }
 

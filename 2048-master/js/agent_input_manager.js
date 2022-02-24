@@ -74,14 +74,20 @@ function AgentInputManager() {
 
     // Respond to agent
     document.addEventListener("agent-move", function (event) {
+        console.log("Got move command from agent " + event.detail);
+        
         var modifiers = event.altKey || event.ctrlKey || event.metaKey ||
                         event.shiftKey;
-        var mapped    = map[event.which];
-    
+        var mapped    = map[event.detail];
+
+        event.preventDefault();
+        self.emit("move", mapped);
+
         if (!modifiers) {
             if (mapped !== undefined) {
             event.preventDefault();
-            self.emit("move", mapped);
+            console.log("Emitting move command");
+            
             }
         }
     
@@ -89,6 +95,7 @@ function AgentInputManager() {
         if (!modifiers && event.which === 82) {
             self.restart.call(self, event);
         }
+        
     });
   
     // Respond to button presses
