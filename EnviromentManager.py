@@ -19,6 +19,7 @@ class EnviromentManager:
 
         # Now passes a tuple that tells the agent whether new state or not
         if self.game.getGrid()["gridCounter"] > self.gridCounter:
+            self.gridCounter += 1
             return (self.game.getGrid(), True)
 
         return (self.game.getGrid(), False)
