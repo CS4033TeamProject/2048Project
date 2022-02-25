@@ -95,7 +95,7 @@ GameManager.prototype.actuate = function () {
     bestScore:  this.storageManager.getBestScore(),
     terminated: this.isGameTerminated()
   });
-
+  this.postToAgent(this.serialize(),this.stateCounter);
 };
 
 // Represent the current game as an object
@@ -185,12 +185,10 @@ GameManager.prototype.move = function (direction) {
     if (!this.movesAvailable()) {
       this.over = true; // Game over!
     }
-
+    this.stateCounter++;
     this.actuate();
     
   }
-  this.stateCounter++;
-  this.postToAgent(this.serialize(),this.stateCounter);
 };
 
 // Get the vector representing the chosen direction
