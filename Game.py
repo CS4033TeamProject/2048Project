@@ -1,27 +1,27 @@
 class Game:
     def __init__(self) -> None:
-        self.grid = {
+        self.state = {
                 "grid": None,
                 "score": None,
                 "over": False,
                 "won": False,
                 "keepPlaying": True,
-                "gridCounter" : 0
+                "stateCounter" : 0
                 }
 
-        self.move = {
+        self.action = {
                 "move": None,
                 "moveNumber" : 0
                 }
     
-    def getGrid(self) -> dict:
-        return self.grid
+    def getState(self) -> dict:
+        return self.state
 
-    def getMove(self) -> dict:
-        return self.move
+    def getAction(self) -> dict:
+        return self.action
 
-    def setGrid(self, grid: dict) -> None:
-        self.grid = grid
+    def setState(self, state: dict) -> None:
+        self.state = state
 
-    def setMove(self, move: dict) -> None:
-        self.move = move
+    def setAction(self, action: dict) -> None:
+        self.move = action
