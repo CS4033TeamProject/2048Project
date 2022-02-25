@@ -33,7 +33,7 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
     }
 
   });
-  this.postToAgent(grid, metadata);
+  //this.postToAgent(grid, metadata);
 };
 
 // Continues the game (both restart and keep playing)
