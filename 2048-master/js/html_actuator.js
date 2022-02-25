@@ -143,7 +143,7 @@ HTMLActuator.prototype.postToAgent = function (grid, metadata) {
   // POST data
   let data = { grid: grid, metadata: metadata}
 
-  fetch("127.0.0.1:5000/grid", {
+  fetch("http://127.0.0.1:5000/grid", {
     method: "POST",
     headers: {'Content-Type': 'application/json'}, 
     body: JSON.stringify(data)
