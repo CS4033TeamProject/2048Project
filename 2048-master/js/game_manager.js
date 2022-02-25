@@ -3,7 +3,7 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
   this.inputManager   = new InputManager;
   this.storageManager = new StorageManager;
   this.actuator       = new Actuator;
-
+  this.stateCounter   = 0;
   this.startTiles     = 2;
 
   this.inputManager.on("move", this.move.bind(this));
@@ -56,7 +56,6 @@ GameManager.prototype.setup = function () {
 
   // Update the actuator
   this.actuate();
-  this.postToAgent(this.serialize())
 };
 
 // Set up the initial tiles to start the game with
@@ -190,6 +189,8 @@ GameManager.prototype.move = function (direction) {
     this.actuate();
     
   }
+  this.stateCounter++;
+  this.postToAgent(this.grid.serialize(),this.score,this.over,this.won,this.keepPlaying,this.stateCounter);
 };
 
 // Get the vector representing the chosen direction
