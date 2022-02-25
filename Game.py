@@ -5,7 +5,8 @@ class Game:
                 "score": None,
                 "over": False,
                 "won": False,
-                "keepPlaying": True
+                "keepPlaying": True,
+                "gridCounter" : 0
                 }
 
         self.move = {
