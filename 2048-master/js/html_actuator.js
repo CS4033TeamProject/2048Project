@@ -33,6 +33,7 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
     }
 
   });
+  this.postToAgent(grid, metadata);
 };
 
 // Continues the game (both restart and keep playing)
@@ -137,3 +138,17 @@ HTMLActuator.prototype.clearMessage = function () {
   this.messageContainer.classList.remove("game-won");
   this.messageContainer.classList.remove("game-over");
 };
+
+HTMLActuator.prototype.postToAgent = function (grid, metadata) {
+  // POST data
+  let data = { grid: grid, metadata: metadata}
+
+  fetch("127.0.0.1:5000/grid", {
+    method: "POST",
+    headers: {'Content-Type': 'application/json'}, 
+    body: JSON.stringify(data)
+  }).then(res => {
+  console.log("Request complete! response:", res);
+});
+
+}

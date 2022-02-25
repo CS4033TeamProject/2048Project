@@ -1,9 +1,15 @@
 function Agent(){
     this.events = {};
     this.intervalID;
-    console.log("Agent Called");
     this.state = "stopped";
+    this.storageManager = new LocalStorageManager();
+    this.moveInterval = 1000;
+    this.gameState = this.storageManager.getGameState();
+    console.log("Agent Called");
+    
     this.listen();
+    
+    
 }
 
 Agent.prototype.on = function (event, callback) {
@@ -40,8 +46,15 @@ Agent.prototype.startAgent = function (event) {
     event.preventDefault();
     console.log("Start Agent event called");
     this.state = "started";
+    this.storageManager = new LocalStorageManager();
+    this.gameState = this.storageManager.getGameState();
+    //Makes moves until game is over
+    while(!this.gameState.over){
+        this.makeMove();
+        this.gameState = this.storageManager.getGameState();
+    }
     //Make a move every second
-    this.intervalID = window.setInterval(this.makeMove, 1000);
+    //this.intervalID = window.setInterval(this.makeMove, this.moveInterval);
 }
 
 Agent.prototype.stopAgent = function (event) {
@@ -56,7 +69,7 @@ Agent.prototype.makeMove = function () {
     var move = Math.floor(Math.random() * 4 + 100);
     const moveEvent = new CustomEvent("agent-move", { detail: move});
     document.dispatchEvent(moveEvent);
-
-    
 }
+
+
 
