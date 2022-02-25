@@ -190,7 +190,7 @@ GameManager.prototype.move = function (direction) {
     
   }
   this.stateCounter++;
-  this.postToAgent(this.grid.serialize(),this.score,this.over,this.won,this.keepPlaying,this.stateCounter);
+  this.postToAgent(this.serialize(),this.stateCounter);
 };
 
 // Get the vector representing the chosen direction
@@ -274,9 +274,10 @@ GameManager.prototype.positionsEqual = function (first, second) {
   return first.x === second.x && first.y === second.y;
 };
 
-GameManager.prototype.postToAgent = function (serializedData) {
+GameManager.prototype.postToAgent = function (serializedData, stateCounter) {
   // POST data
-  let data = { serializedData }
+  let data = serializedData
+  data.state = stateCounter;
 
   fetch("http://127.0.0.1:5000/grid", {
     method: "POST",
