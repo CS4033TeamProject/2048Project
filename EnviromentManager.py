@@ -5,7 +5,7 @@ class EnviromentManager:
     def __init__(self, url: str) -> None:
         self.url = url
         self.actionCounter = 0
-        self.stateCounter = 0
+        self.stateCounter = -1
 
     def action(self, action: str) -> None:
         self.actionCounter += 1
@@ -17,9 +17,9 @@ class EnviromentManager:
         # Now passes a tuple that tells the agent whether new state or not
         if r.json()["stateCounter"] > self.stateCounter:
             self.stateCounter += 1
-            return (r.json()["grid"], True)
+            return (r.json(), True)
 
-        return (r.json()["grid"], False)
+        return (r.json(), False)
 
 if __name__ == "__main__":
     test = EnviromentManager("http://127.0.0.1:5000")
