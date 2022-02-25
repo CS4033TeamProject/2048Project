@@ -11,7 +11,7 @@ class EnviromentManager:
 
     def action(self, action: str) -> None:
         self.actionCounter += 1
-        r = requests.post(self.url + "/move", json = {"move": action, "moveCounter": self.moveCounter})
+        r = requests.post(self.url + "/move", json = {"move": action, "actionCounter": self.actionCounter})
 
     def state(self) -> tuple:
         r = requests.get(self.url + "/grid")

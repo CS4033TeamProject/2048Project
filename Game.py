@@ -11,7 +11,7 @@ class Game:
 
         self.action = {
                 "move": None,
-                "moveNumber" : 0
+                "actionCounter" : 0
                 }
     
     def getState(self) -> dict:
@@ -24,4 +24,4 @@ class Game:
         self.state = state
 
     def setAction(self, action: dict) -> None:
-        self.move = action
+        self.action = action
