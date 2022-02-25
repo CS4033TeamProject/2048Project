@@ -11,14 +11,14 @@ GAME = Game()
 def move():
     if request.method == "POST":
         print(request.json)
-        GAME.setMove(request.json)
+        GAME.setAction(request.json)
 
-    return GAME.getMove()
+    return GAME.getAction()
 
 @app.route('/grid', methods=['GET', 'POST'])
 def grid():
     if request.method == "POST":
         print(request.json)
-        GAME.setGrid(request.json)
+        GAME.setState(request.json)
 
-    return GAME.getGrid()
+    return GAME.getState()
