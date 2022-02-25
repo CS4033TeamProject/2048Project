@@ -56,6 +56,7 @@ GameManager.prototype.setup = function () {
 
   // Update the actuator
   this.actuate();
+  this.postToAgent(this.serialize())
 };
 
 // Set up the initial tiles to start the game with
@@ -271,3 +272,17 @@ GameManager.prototype.tileMatchesAvailable = function () {
 GameManager.prototype.positionsEqual = function (first, second) {
   return first.x === second.x && first.y === second.y;
 };
+
+GameManager.prototype.postToAgent = function (serializedData) {
+  // POST data
+  let data = { serializedData }
+
+  fetch("http://127.0.0.1:5000/grid", {
+    method: "POST",
+    headers: {'Content-Type': 'application/json'}, 
+    body: JSON.stringify(data)
+  }).then(res => {
+  console.log("Request complete! response:", res);
+});
+
+}
