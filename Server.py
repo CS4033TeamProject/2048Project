@@ -19,6 +19,6 @@ def move():
 def grid():
     if request.method == "POST":
         print(request.json)
-        GAME.setState(request.json)
+        GAME.addState(request.json)
 
     return GAME.getState()
