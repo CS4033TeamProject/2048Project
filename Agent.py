@@ -85,7 +85,7 @@ class MonteCarlo:
 if __name__ == "__main__":
     FILE_URL = "file:///C:/Users/kylew/Documents/Code/Machine%20Learning/2048%20RL/2048-master/index.html"
 
-    mc = MonteCarlo(FILE_URL, 4)
+    mc = MonteCarlo(FILE_URL, 4, 32)
 
     try:
         mc.run()

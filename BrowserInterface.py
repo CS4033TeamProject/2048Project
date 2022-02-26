@@ -6,8 +6,9 @@ from selenium.webdriver.firefox.options import Options
 import json
 
 class Interface:
-    def __init__(self, url: str, size: int) -> None:
+    def __init__(self, url: str, size: int, win: int) -> None:
         self.size = size
+        self.win = win
         # Setting prefs for log reading
         cap = DesiredCapabilities.FIREFOX
         cap['loggingPrefs'] = {'browser':'ALL'}
@@ -68,5 +69,10 @@ class Interface:
     def lost(self) -> bool:
         return self.data()["over"]
     
-    def won(self) -> int:
-        return self.data()["won"]
+    def won(self) -> bool:
+        grid = self.grid()
+        for i in range(0, self.size):
+            if self.win in grid[i]:
+                return True
+        
+        return False
