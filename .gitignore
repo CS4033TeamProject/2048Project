@@ -9,3 +9,5 @@ target/
 # Python
 __pycache__/
 *.pyc
+
+*.log
