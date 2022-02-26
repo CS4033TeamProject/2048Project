@@ -20,6 +20,7 @@ class MonteCarlo:
                     ("right", 0.25)
             ]
         }
+        self.lastScore = 0
     
     def restart(self) -> None:
         self.interface.restart()
@@ -29,6 +30,9 @@ class MonteCarlo:
     
     def state(self) -> list:
         return self.interface.data()
+    
+    def reward(self, currentScore: int) -> int:
+        return currentScore - self.lastScore
     
     def run_episode(self) -> list:
         self.restart()
@@ -69,7 +73,8 @@ class MonteCarlo:
             self.interface.move(action)
 
             timeStep.append(action)
-            timeStep.append(REWARD)
+            timeStep.append(self.reward(self.interface.score()))
+            self.lastScore = self.interface.score()
 
             episode.append(timeStep)
 
