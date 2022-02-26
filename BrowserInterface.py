@@ -33,6 +33,12 @@ class Interface:
         actions.send_keys(keymap[direction])
         actions.perform()
     
+    def restart(self) -> None:
+        actions = ActionChains(self.browser)
+        actions.send_keys("r")
+        actions.perform()
+
+    
     def grid(self) -> dict:
         tiles = []
         data = json.loads(self.browser.find_element_by_id("this-better-work").text)
