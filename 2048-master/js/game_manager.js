@@ -3,7 +3,7 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
   this.inputManager   = new InputManager;
   this.storageManager = new StorageManager;
   this.actuator       = new Actuator;
-  this.stateCounter   = 0;
+
   this.startTiles     = 2;
 
   this.inputManager.on("move", this.move.bind(this));
@@ -95,7 +95,7 @@ GameManager.prototype.actuate = function () {
     bestScore:  this.storageManager.getBestScore(),
     terminated: this.isGameTerminated()
   });
-  this.postToAgent(this.serialize(),this.stateCounter);
+
 };
 
 // Represent the current game as an object
@@ -185,9 +185,8 @@ GameManager.prototype.move = function (direction) {
     if (!this.movesAvailable()) {
       this.over = true; // Game over!
     }
-    this.stateCounter++;
+
     this.actuate();
-    
   }
 };
 
@@ -271,18 +270,3 @@ GameManager.prototype.tileMatchesAvailable = function () {
 GameManager.prototype.positionsEqual = function (first, second) {
   return first.x === second.x && first.y === second.y;
 };
-
-GameManager.prototype.postToAgent = function (serializedData, stateCounter) {
-  // POST data
-  let data = serializedData
-  data.state = stateCounter;
-
-  fetch("http://127.0.0.1:5000/grid", {
-    method: "POST",
-    headers: {'Content-Type': 'application/json'}, 
-    body: JSON.stringify(data)
-  }).then(res => {
-  console.log("Request complete! response:", res);
-});
-
-}

@@ -455,10 +455,6 @@ hr {
   @include clearfix;
 }
 
-.below-game {
-  @include clearfix;
-}
-
 .game-intro {
   float: left;
   line-height: 42px;
@@ -466,20 +462,6 @@ hr {
 }
 
 .restart-button {
-  @include button;
-  display: block;
-  text-align: center;
-  float: right;
-}
-
-.start-agent-button {
-  @include button;
-  display: block;
-  text-align: center;
-  float: right;
-}
-
-.stop-agent-button {
   @include button;
   display: block;
   text-align: center;
