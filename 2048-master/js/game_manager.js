@@ -187,8 +187,9 @@ GameManager.prototype.move = function (direction) {
     }
 
     this.actuate();
-    console.clear()
-    console.log(this.serialize())
+    console.clear();
+    console.log(this.serialize());
+    document.getElementById("this-better-work").innerHTML = JSON.stringify(this.serialize());
   }
 };
 
