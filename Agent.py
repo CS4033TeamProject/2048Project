@@ -4,8 +4,8 @@ import random
 from BrowserInterface import Interface
 
 class MonteCarlo:
-    def __init__(self, url: str, size: int) -> None:
-        self.interface = Interface(url, size)
+    def __init__(self, url: str, size: int, win: int) -> None:
+        self.interface = Interface(url, size, win)
         self.states = []
         self.policy = {
             [
