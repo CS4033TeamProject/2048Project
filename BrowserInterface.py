@@ -1,4 +1,20 @@
 from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
 
-browser = webdriver.Firefox()
-browser.get('file:///C:/Users/kylew/Documents/Code/Machine%20Learning/2048%20RL/2048-master/index.html')
+class Interface:
+    def __init__(self, url: str) -> None:
+        self.browser = webdriver.Firefox()
+        self.browser.get(url)
+        self.input = self.browser.find_element_by_class_name("container")
+    
+    def move(self, direction: str) -> None:
+        keymap = {
+            "up": "w",
+            "down": "s",
+            "left": "a",
+            "right": "d"
+        }
+
+        actions = ActionChains(self.browser)
+        actions.send_keys(keymap[direction])
+        actions.perform()
