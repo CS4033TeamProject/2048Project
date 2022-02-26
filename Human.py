@@ -1,3 +1,4 @@
+import selenium
 from BrowserInterface import Interface
 
 import time
@@ -13,11 +14,15 @@ class Human:
         return self.interface.grid()
 
 if __name__ == "__main__":
-    gigaChad = Human("file:///C:/Users/kylew/Documents/Code/Machine%20Learning/2048%20RL/2048-master/index.html", 4)
-    
-    while True:
-        gigaChad.action("up")
-        gigaChad.action("down")
-        gigaChad.action("up")
-        gigaChad.action("down")
-        print(gigaChad.state())
+    try:
+        gigaChad = Human("file:///C:/Users/kylew/Documents/Code/Machine%20Learning/2048%20RL/2048-master/index.html", 4)
+        
+        while True:
+            gigaChad.action("up")
+            gigaChad.action("down")
+            gigaChad.action("up")
+            gigaChad.action("down")
+            print(gigaChad.state())
+    except selenium.common.exceptions.NoSuchWindowException:
+        print("Closed!")
+        
