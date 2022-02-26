@@ -3,17 +3,21 @@ from BrowserInterface import Interface
 import time
 
 class Human:
-    def __init__(self, url: str) -> None:
-        self.interface = Interface(url)
+    def __init__(self, url: str, size: int) -> None:
+        self.interface = Interface(url, size)
     
-    def action(self, direction):
+    def action(self, direction: str) -> None:
         self.interface.move(direction)
+    
+    def state(self) -> list:
+        return self.interface.grid()
 
 if __name__ == "__main__":
-    gigaChad = Human("file:///C:/Users/kylew/Documents/Code/Machine%20Learning/2048%20RL/2048-master/index.html")
+    gigaChad = Human("file:///C:/Users/kylew/Documents/Code/Machine%20Learning/2048%20RL/2048-master/index.html", 4)
     
     while True:
         gigaChad.action("up")
         gigaChad.action("down")
         gigaChad.action("up")
         gigaChad.action("down")
+        print(gigaChad.state())
