@@ -8,6 +8,7 @@ class Agent:
         self.env.action(action)
     
     def state(self) -> dict:
+        print(self.env.stateCounter)
         print(self.env.state())
         while True:
             # If the state has changed
