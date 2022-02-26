@@ -39,7 +39,7 @@ class Interface:
         actions.perform()
 
     
-    def grid(self) -> dict:
+    def data(self) -> dict:
         tiles = []
         data = json.loads(self.browser.find_element_by_id("this-better-work").text)
         
@@ -58,3 +58,15 @@ class Interface:
         data["grid"] = tiles
         
         return data
+    
+    def grid(self) -> list:
+        return self.data()["grid"]
+    
+    def score(self) -> int:
+        return self.data()["score"]
+    
+    def lost(self) -> bool:
+        return self.data()["over"]
+    
+    def won(self) -> int:
+        return self.data()["won"]
