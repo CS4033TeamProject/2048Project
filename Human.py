@@ -17,8 +17,10 @@ class Human:
         return self.interface.grid()
 
 if __name__ == "__main__":
+    FILE_URL = "file:///C:/Users/kylew/Documents/Code/Machine%20Learning/2048%20RL/2048-master/index.html"
+    
     try:
-        gigaChad = Human("file:///C:/Users/kylew/Documents/Code/Machine%20Learning/2048%20RL/2048-master/index.html", 4)
+        gigaChad = Human(FILE_URL, 4)
         
         while True:
             for i in range(0, 4):
