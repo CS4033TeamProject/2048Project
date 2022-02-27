@@ -6,6 +6,58 @@ import random
 from BrowserInterface import Interface
 from MatrixHasher import MatrixHasher
 
+class Environment:
+    def __init__(self, interface, states = []) -> None:
+        self.interface = interface
+        self.observation_space = states
+        self.action_space = self.interface.getActions()
+        self.initialState = interface.start()
+        self.currentState = self.initialState
+    
+    #Store a new state into the observation space if it's not already stored
+    def addState(self, state) -> None:
+        if(state not in self.observation_space): self.observation_space.append(state)
+    
+    def step(self, action):
+        #Make a move in the game
+        self.interface.move(action)
+        
+        #Get the next state, and add it to the list of states
+        next_state = self.interface.getGrid()
+        self.observation_space.add(next_state)
+        
+        #Pair the current state's action to the next state
+        self.currentState.pairAction(action,next_state)
+
+        #Get the reward, if we won, and extra info
+        reward = self.interface.getReward()
+        done = self.interface.getDone()
+        info = self.interface.getInfo()
+
+        return next_state, reward, done, info
+
+    def reset():
+        pass
+
+
+class State:
+    def __init__(self, grid, value=0, previousState = None) -> None:
+        self.grid = grid
+        self.actions = {
+            "up"    : None,
+            "down"  : None,
+            "left"  : None,
+            "right" : None}
+        self.value = value
+        self.previousState = previousState
+
+    def __hash__(self) -> int:
+        return hash((self.grid, self.actions, self.value, self.previousState))
+
+    def pairAction(self, action, nextState):
+        self.actions[action] = nextState
+
+    
 class MonteCarlo:
     def __init__(self, url: str, size: int, win: int) -> None:
         self.interface = Interface(url, size, win)
