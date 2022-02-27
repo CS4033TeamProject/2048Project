@@ -5,17 +5,60 @@ import random
 from BrowserInterface import Interface
 from MatrixHasher import MatrixHasher
 
+class GLIEMonteCarlo:
+    def __init__(self, iterations = 1000, environment = Environment()) -> None:
+        ##state-action values are 0
+        ##state-action times visited are 0
+        self.environment = environment
+        self.iterations = iterations
+        self.episodes = 1
+        self.epsilon = 1
+        self.Q = None
+        self.N = None
+        self.policy = ESoftPolicy(self.epsilon, environment.states)
+
+        while(self.episodes < self.iterations):
+            episode = Episode(environment, policy)
+            self.Q = self.updateQ(episode)
+            self.episodes += 1
+            self.epsilon = 1/self.episodes
+            policy = Policy(environment.states, self.epsilon)
+
+    def updateQ(self, episode):
+        for move in episode.moves:
+            state = move[0]
+            action = move[1]
+            self.N[state][action] += 1
+            self.Q[state][action] = self.Q[state][action] + 1/self.N[state][action] * (episode.reward - self.Q[state][action])
+        
+class Episode:
+    def __init__(self, environment, policy) -> None:
+        #move = (state, action, reward)
+        self.moves = []
+        self.reward = 0
+        self.run_episode(environment, policy)
+    def run_episode(self, environment, policy):
+        done = False
+        state = environment.start()
+        while(not done):
+            move = environment.step(policy.getAction(state))
+            self.moves.append(move)
+            self.reward += move[2]
+            state = move[0]
+            if(state.isTerminal): done = True
+
+
 class Environment:
-    def __init__(self, interface, states = []) -> None:
+    def __init__(self, interface=Interface(), states = []) -> None:
         self.interface = interface
-        self.observation_space = states
+        self.states = states
         self.action_space = self.interface.getActions()
         self.initialState = interface.start()
         self.currentState = self.initialState
     
     #Store a new state into the observation space if it's not already stored
     def addState(self, state) -> None:
-        if(state not in self.observation_space): self.observation_space.append(state)
+        if(state not in self.states): self.states.append(state)
     
     def step(self, action):
         #Make a move in the game
@@ -23,7 +66,7 @@ class Environment:
         
         #Get the next state, and add it to the list of states
         next_state = self.interface.getGrid()
-        self.observation_space.add(next_state)
+        self.states.add(next_state)
         
         #Pair the current state's action to the next state
         self.currentState.pairAction(action,next_state)
@@ -34,6 +77,10 @@ class Environment:
         info = self.interface.getInfo()
 
         return next_state, reward, done, info
+
+    def incrementalUpdate(state, reward) -> float:
+        value = state.value + 1/env.states.size()*(reward-state.value)
+        return value
 
     def reset():
         pass
@@ -49,6 +96,7 @@ class State:
             "right" : None}
         self.value = value
         self.previousState = previousState
+        #                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     self.policy = policy
 
     def __hash__(self) -> int:
         return hash((self.grid, self.actions, self.value, self.previousState))
@@ -56,7 +104,39 @@ class State:
     def pairAction(self, action, nextState):
         self.actions[action] = nextState
 
+    #Expected return when starting in state and following policy thereafter
+    def value(self, policy) -> float:
+        return self.value
     
+    def actionValueFunction(self, action) -> float:
+        return self.value
+    
+class Policy:
+    def __init__(self) -> None:
+        pass
+
+    #Expected return when starting in state and following policy thereafter
+    #
+    #bellman equation for value function=(sum of policy(action|state) for all actions) * (sum of (probability of (s',r|s,a)) * (reward + gamma*value function of s')
+    def stateValue(self, state) -> float:
+        return self.value
+    
+    #Expected return starting from state, taking action, and thereafter following policy
+    def actionValue(self, state, action) -> float:
+        return self.value
+    
+    
+    #Perform an expected update on all states to calculate policy value pg 74
+    def interativePolicyEvaluation(policy) -> None:
+        #Expected update
+        #Loop
+            #Delta = 0
+            #Loop for each state s in S
+                #v = Value(state)
+                #Value(state) = Expected update
+                #delta = max(delta,|v - Value(state))
+            #until delta < theta-determines accuracy of estimation
+        pass
 class MonteCarlo:
     def __init__(self, url: str, size: int, win: int) -> None:
         self.interface = Interface(url, size, win)
@@ -284,7 +364,7 @@ if __name__ == "__main__":
     mc = MonteCarlo(FILE_URL, 3, 32)
     
     try:
-        mc.run_with_policy_update(10000)
+        mc.run_with_policy_update(1000)
         mc.export_policy()
 
     except selenium.common.exceptions.NoSuchWindowException:
