@@ -63,6 +63,7 @@ GameManager.prototype.addStartTiles = function () {
   for (var i = 0; i < this.startTiles; i++) {
     this.addRandomTile();
   }
+  document.getElementById("this-better-work").innerHTML = JSON.stringify(this.serialize());
 };
 
 // Adds a tile in a random position
