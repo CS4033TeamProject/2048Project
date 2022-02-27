@@ -72,7 +72,8 @@ class Interface:
     def won(self) -> bool:
         grid = self.grid()
         for i in range(0, self.size):
-            if self.win in grid[i]:
-                return True
+            for j in range(0, self.size):
+                if grid[i][j] == self.win:
+                    return True
         
         return False
