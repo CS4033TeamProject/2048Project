@@ -233,7 +233,7 @@ class MonteCarlo:
                 state = self.mh.matrixToString(episode[0][i][0])
                 action_prob = self.policy[state][i][1]
                 
-                if action_prob > 0.97:
+                if action_prob == 1.0:
                     bestActionExists = True
             
             # If no action is at 1.0 then update
@@ -243,9 +243,9 @@ class MonteCarlo:
                     action_prob = self.policy[state][i][1]
 
                     if map[i] == bestAction:
-                        action_prob += 0.03
+                        action_prob += 0.15
                     else:
-                        action_prob -= 0.01
+                        action_prob -= 0.05
     
     def win_percentage(self, number_of_episodes: int) -> float:
         wins = 0
@@ -266,6 +266,9 @@ class MonteCarlo:
     def run_with_policy_update(self, number_of_episodes: int) -> float:
         wins = 0
 
+        f = open("big.csv", "a")
+        f.write("time,episode,wins,winrate\n")
+
         for i in range(0, number_of_episodes):
             episode = self.run_episode()
 
@@ -276,11 +279,12 @@ class MonteCarlo:
             time = datetime.now().strftime("%H:%M:%S")
             print(time)
             print(f"Episode number = {i}")
+            print(f"Wins = {wins}")
             print(f"Win rate = {wins / (i + 1)}")
             print()
 
             f = open("big.csv", "a")
-            f.write(str(i) + "," + str(wins / (i + 1)) + "," + time + "\n")
+            f.write(time + "," + str(i) + "," + str(wins) + "," + str(wins / (i + 1)) + "\n")
             f.close()
 
 
@@ -291,10 +295,10 @@ class MonteCarlo:
 if __name__ == "__main__":
     FILE_URL = "file:" + os.getcwd() + "/2048-master/index.html"
 
-    mc = MonteCarlo(FILE_URL, 3, 32)
+    mc = MonteCarlo(FILE_URL, 3, 8)
     
     try:
-        mc.run_with_policy_update(10000)
+        mc.run_with_policy_update(50000)
         mc.export_policy()
 
     except selenium.common.exceptions.NoSuchWindowException:
