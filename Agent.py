@@ -44,7 +44,7 @@ class MonteCarlo:
         # Episode will hold each time step: [[state, action, reward], [...]]
         episode = []
         
-        while (not self.interface.lost()) or self.interface.won():
+        while (not self.interface.lost()) and (not self.interface.won()):
             state = self.interface.grid()
             hashableState = self.mh.matrixToString(state)
 
@@ -85,7 +85,16 @@ class MonteCarlo:
 
             # self.interface.lost should be properly breaking while loop
         
-        return episode
+        return (episode, self.interface.won())
+    
+    def win_percentage(self, number_of_episodes: int) -> float:
+        wins = 0
+
+        for i in range(0, number_of_episodes):
+            if self.run_episode()[1]:
+                wins += 1
+        
+        return wins / number_of_episodes
     '''
     def create_state_action_dictionary(self, policy):
         Q = {}
@@ -161,11 +170,7 @@ if __name__ == "__main__":
     mc = MonteCarlo(FILE_URL, 3, 32)
     
     try:
-        for i in range(0, 5):
-            l = mc.run_episode()
-            print(l)
-            print()
-            mc.restart()
+        print(mc.win_percentage(100))
 
     except selenium.common.exceptions.NoSuchWindowException:
         print("Closed!")
