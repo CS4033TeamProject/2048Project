@@ -1,4 +1,3 @@
-from email import policy
 import os
 import selenium
 import random
@@ -226,13 +225,29 @@ class MonteCarlo:
                     bestAction = map[i]
             
             # Update policy to favor that action
+            
+            # Make sure no action is already at 1.0
+            bestActionExists = False
             for i in range(0, 4):
                 state = self.mh.matrixToString(episode[0][i][0])
+                action_prob = self.policy[state][i][1]
+                
+                if action_prob > 0.97:
+                    bestActionExists = True
+            
+            # If no action is at 1.0 then update
+            if not bestActionExists:
+                for i in range(0, 4):
+                    state = self.mh.matrixToString(episode[0][i][0])
+                    action_prob = self.policy[state][i][1]
 
-                if map[i] == bestAction:
-                    self.policy[state][i][1] += 0.03
-                else:
-                    self.policy[state][i][1] -= 0.01
+                    if map[i] == bestAction:
+                        action_prob += 0.03
+                    else:
+                        action_prob -= 0.01
+                    
+                    print(action_prob)
+                print()
 
     
     def win_percentage(self, number_of_episodes: int) -> float:
@@ -274,6 +289,8 @@ if __name__ == "__main__":
     
     try:
         mc.run_with_policy_update(100)
+        mc.export_policy()
 
     except selenium.common.exceptions.NoSuchWindowException:
+        mc.export_policy()
         print("Closed!")
