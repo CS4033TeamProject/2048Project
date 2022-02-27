@@ -245,10 +245,6 @@ class MonteCarlo:
                         action_prob += 0.03
                     else:
                         action_prob -= 0.01
-                    
-                    print(action_prob)
-                print()
-
     
     def win_percentage(self, number_of_episodes: int) -> float:
         wins = 0
@@ -260,10 +256,9 @@ class MonteCarlo:
         return wins / number_of_episodes
     
     def export_policy(self) -> None:
-        f = open("policy.log", "W")
+        f = open("policy.log", "w")
 
-        for k, v in self.policy:
-            f.write(f"{k}:{v}")
+        f.write(str(self.policy))
         
         f.close
     
@@ -276,6 +271,7 @@ class MonteCarlo:
             if episode[1]:
                 wins += 1
             
+            print(f"Episode number = {i}")
             print(f"Win rate = {wins / (i + 1)}")
 
             self.policy_update(episode)
@@ -288,7 +284,7 @@ if __name__ == "__main__":
     mc = MonteCarlo(FILE_URL, 3, 32)
     
     try:
-        mc.run_with_policy_update(100)
+        mc.run_with_policy_update(10000)
         mc.export_policy()
 
     except selenium.common.exceptions.NoSuchWindowException:
