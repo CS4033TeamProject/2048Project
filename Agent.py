@@ -1,4 +1,3 @@
-from code import interact
 import os
 import selenium
 import random
@@ -11,6 +10,8 @@ class MonteCarlo:
         self.interface = Interface(url, size, win)
         self.mh = MatrixHasher()
         self.states = []
+
+        # Example state (never will encounter)
         self.policy = {self.mh.matrixToString(
             [
                 [2, 0, 0],
@@ -23,6 +24,7 @@ class MonteCarlo:
                     ("right", 0.25)
             ]
         }
+        self.values = {}
         self.lastScore = 0
     
     def restart(self) -> None:
@@ -34,8 +36,22 @@ class MonteCarlo:
     def state(self) -> list:
         return self.interface.data()
     
-    def reward(self, currentScore: int) -> int:
+    def score_reward(self, currentScore: int) -> int:
         return currentScore - self.lastScore
+    
+    def reward(self) -> int:
+        if self.interface.won():
+            return 1
+        return 0
+    
+    def value(self, state: str) -> float:
+        if not state in self.value:
+            self.value[state] = 0.0
+        
+        return self.value[state]
+    
+    def update_value(self, state: str, reward: float) -> None:
+        self.value[state] += reward
     
     def run_episode(self) -> list:
         self.restart()
@@ -95,6 +111,14 @@ class MonteCarlo:
                 wins += 1
         
         return wins / number_of_episodes
+    
+    def export_policy(self) -> None:
+        f = open("policy.log", "W")
+
+        for k, v in self.policy:
+            f.write("{k}:{v}")
+        
+        f.close
     '''
     def create_state_action_dictionary(self, policy):
         Q = {}
