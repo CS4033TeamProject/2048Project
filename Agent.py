@@ -1,3 +1,4 @@
+from email import policy
 import os
 import selenium
 import random
@@ -9,7 +10,22 @@ class MonteCarlo:
     def __init__(self, url: str, size: int, win: int) -> None:
         self.interface = Interface(url, size, win)
         self.mh = MatrixHasher()
-        self.states = []
+
+        # Dictionary that tells which states follow a state
+        self.states = {}
+        '''
+        self.states = {self.mh.matrixToString(
+            [
+                [2, 0, 0],
+                [0, 0, 0],
+                [0, 0, 0]
+            ]) : {
+                    "up": state,
+                    "down": state,
+                    ...
+            }
+        }
+        '''
 
         # Example state (never will encounter)
         self.policy = {self.mh.matrixToString(
@@ -17,11 +33,11 @@ class MonteCarlo:
                 [2, 0, 0],
                 [0, 0, 0],
                 [0, 0, 0]
-            ]) : [
-                    ("up", 0.25),
-                    ("down", 0.25),
-                    ("left", 0.25),
-                    ("right", 0.25)
+            ]) : [ #TODO make this a dict
+                    ["up", 0.25],
+                    ["down", 0.25],
+                    ["left", 0.25],
+                    ["right", 0.25]
             ]
         }
         self.values = {}
@@ -45,13 +61,23 @@ class MonteCarlo:
         return 0
     
     def value(self, state: str) -> float:
-        if not state in self.value:
-            self.value[state] = 0.0
+        if not state in self.values:
+            self.values[state] = 0.0
         
-        return self.value[state]
+        return self.values[state]
     
-    def update_value(self, state: str, reward: float) -> None:
-        self.value[state] += reward
+    # Update state and also add state
+    def update_state(self, state: str, action = None, next_state = None) -> None:
+        if not state in self.states:
+            self.states[state] = {
+                "up": "[0, 0, 0],[0, 0, 0],[0, 0, 0]",
+                "down": "[0, 0, 0],[0, 0, 0],[0, 0, 0]",
+                "left": "[0, 0, 0],[0, 0, 0],[0, 0, 0]",
+                "right": "[0, 0, 0],[0, 0, 0],[0, 0, 0]"
+            }
+
+        if action != None and next_state != None:
+            self.states[state][action] = next_state
     
     def run_episode(self) -> list:
         self.restart()
@@ -75,10 +101,10 @@ class MonteCarlo:
             # If not then add to policy with default probs
             if not hashableState in self.policy:
                 self.policy[hashableState] = [
-                    ("up", 0.25),
-                    ("down", 0.25),
-                    ("left", 0.25),
-                    ("right", 0.25)
+                    ["up", 0.25],
+                    ["down", 0.25],
+                    ["left", 0.25],
+                    ["right", 0.25]
                 ]
 
             # Get the action base on random n
@@ -94,14 +120,68 @@ class MonteCarlo:
             self.interface.move(action)
 
             timeStep.append(action)
-            timeStep.append(self.reward(self.interface.score()))
+            timeStep.append(self.reward())
             self.lastScore = self.interface.score()
 
             episode.append(timeStep)
 
+            # Updates self.states dictionary
+            if len(episode) > 1:
+                self.update_state(self.mh.matrixToString(episode[len(episode)-1][0]), episode[len(episode)-1][1], hashableState)
+
             # self.interface.lost should be properly breaking while loop
         
         return (episode, self.interface.won())
+    
+    def value_iteration(self, episode: tuple) -> None:
+        numTimeSteps = len(episode[0])
+
+        # If won the episode
+        if episode[1]:
+            # Loop thru and give equal reward to states
+            for i in range(0, numTimeSteps):
+                state = self.mh.matrixToString(episode[0][i][0])
+
+                # Make sure state is in values
+                if not state in self.values:
+                    self.values[state] = 0.0
+
+                self.values[state] += (1 / numTimeSteps)
+    
+    def policy_update(self, episode: tuple):
+        self.value_iteration(episode)
+
+        numTimeSteps = len(episode[0])
+
+        map = {
+                0: "up",
+                1: "down",
+                2: "left",
+                3: "right"
+            }
+
+        for i in range(0, numTimeSteps):
+            bestValue = 0
+            bestAction = "up"
+
+            # Determine the action that leads to the highest value state
+            for i in range(0, 4):
+                # Make sure state is in states dict
+                self.update_state(self.mh.matrixToString(episode[0][i][0]))
+
+                if self.value( self.states[self.mh.matrixToString(episode[0][i][0])][map[i]] ) > bestValue:
+                    bestValue = self.value( self.states[self.mh.matrixToString(episode[0][i][0])][map[i]] )
+                    bestAction = map[i]
+            
+            # Update policy to favor that action
+            for i in range(0, 4):
+                state = self.mh.matrixToString(episode[0][i][0])
+
+                if map[i] == bestAction:
+                    self.policy[state][i][1] += 0.03
+                else:
+                    self.policy[state][i][1] -= 0.01
+
     
     def win_percentage(self, number_of_episodes: int) -> float:
         wins = 0
@@ -116,76 +196,24 @@ class MonteCarlo:
         f = open("policy.log", "W")
 
         for k, v in self.policy:
-            f.write("{k}:{v}")
+            f.write(f"{k}:{v}")
         
         f.close
-    '''
-    def create_state_action_dictionary(self, policy):
-        Q = {}
-        for key in policy.keys():
-            Q[key] = {a: 0.0 for a in range(0, self.interface.size)}
-        return Q
+    
+    def run_with_policy_update(self, number_of_episodes: int) -> float:
+        wins = 0
 
-    def create_random_policy(self):
-     policy = {}
-     for key in range(0, self.interface.size^2):
-          current_end = 0
-          p = {}
-          for action in range(0, 4):
-               p[action] = 1 / 4
-          policy[key] = p
-     return policy
+        for i in range(0, number_of_episodes):
+            episode = self.run_episode()
 
-    def test_policy(self):
-      wins = 0
-      r = 100
-      for i in range(r):
-            w = self.run_episode()[-1][-1]
-            if w == 1:
-                  wins += 1
-      return wins / r
-     
-    def monte_carlo_e_soft(self, episodes=100, policy=None, epsilon=0.01):
-        if not policy:
-            policy = self.create_random_policy()  # Create an empty dictionary to store state action values    
-        Q = self.create_state_action_dictionary(policy) # Empty dictionary for storing rewards for each state-action pair
-        returns = {} # 3.
+            if episode[1]:
+                wins += 1
+            
+            print(f"Win rate = {wins / (i + 1)}")
+
+            self.policy_update(episode)
         
-        for _ in range(episodes): # Looping through episodes
-            G = 0 # Store cumulative reward in G (initialized at 0)
-            episode = self.run_episode(policy=policy) # Store state, action and value respectively 
-            
-            # for loop through reversed indices of episode array. 
-            # The logic behind it being reversed is that the eventual reward would be at the end. 
-            # So we have to go back from the last timestep to the first one propagating result from the future.
-            
-            for i in reversed(range(0, len(episode))):   
-                s_t, a_t, r_t = episode[i] 
-                state_action = (s_t, a_t)
-                G += r_t # Increment total reward by reward on current timestep
-                
-                if not state_action in [(x[0], x[1]) for x in episode[0:i]]: # 
-                    if returns.get(state_action):
-                        returns[state_action].append(G)
-                    else:
-                        returns[state_action] = [G]   
-                        
-                    Q[s_t][a_t] = sum(returns[state_action]) / len(returns[state_action]) # Average reward across episodes
-                    
-                    Q_list = list(map(lambda x: x[1], Q[s_t].items())) # Finding the action with maximum value
-                    indices = [i for i, x in enumerate(Q_list) if x == max(Q_list)]
-                    max_Q = random.choice(indices)
-                    
-                    A_star = max_Q # 14.
-                    
-                    for a in policy[s_t].items(): # Update action probability for s_t in policy
-                        if a[0] == A_star:
-                            policy[s_t][a[0]] = 1 - epsilon + (epsilon / abs(sum(policy[s_t].values())))
-                        else:
-                            policy[s_t][a[0]] = (epsilon / abs(sum(policy[s_t].values())))
-
-        return policy
-        '''
+        print("Done.")
 
 if __name__ == "__main__":
     FILE_URL = "file:" + os.getcwd() + "/2048-master/index.html"
@@ -193,7 +221,7 @@ if __name__ == "__main__":
     mc = MonteCarlo(FILE_URL, 3, 32)
     
     try:
-        print(mc.win_percentage(100))
+        mc.run_with_policy_update(100)
 
     except selenium.common.exceptions.NoSuchWindowException:
         print("Closed!")
