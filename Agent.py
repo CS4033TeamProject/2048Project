@@ -1,5 +1,5 @@
 from code import interact
-from os import times_result
+import os
 import selenium
 import random
 
@@ -154,8 +154,7 @@ class MonteCarlo:
         '''
 
 if __name__ == "__main__":
-    FILE_URL = "file:///C:/Users/kylew/Documents/Code/Machine%20Learning/2048%20RL/2048-master/index.html"
-    #FILE_URL = "file:///C:/Users/tyler/OneDrive/Documents/OU/Spring 2022/Machine Learning/2048Project/2048-master/index.html"
+    FILE_URL = "file:" + os.getcwd() + "/2048-master/index.html"
 
     mc = MonteCarlo(FILE_URL, 3, 32)
     
