@@ -111,10 +111,10 @@ class MonteCarlo:
             top = 0
             for i in range(0, len(self.policy[hashableState])):
                 # Add prob of action to top
-                top += self.policy[hashableState][i][1] # This is accessing the prob in (action, 0.xx)
+                top += self.policy[hashableState][i][1] # This is accessing the prob in [action, 0.xx]
 
                 if n < top: # If prob sum is more than n do that action
-                    action = self.policy[hashableState][i][0] # This is accessing the action in (action, 0.xx)
+                    action = self.policy[hashableState][i][0] # This is accessing the action in [action, 0.xx]
                     break
 
             self.interface.move(action)
