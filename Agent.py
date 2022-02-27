@@ -1,6 +1,7 @@
 import os
 import selenium
 import random
+from datetime import datetime
 
 from BrowserInterface import Interface
 from MatrixHasher import MatrixHasher
@@ -351,8 +352,17 @@ class MonteCarlo:
             if episode[1]:
                 wins += 1
             
+            # OUTPUTS
+            time = datetime.now().strftime("%H:%M:%S")
+            print(time)
             print(f"Episode number = {i}")
             print(f"Win rate = {wins / (i + 1)}")
+            print()
+
+            f = open("big.csv", "a")
+            f.write(str(i) + "," + str(wins / (i + 1)) + "," + time + "\n")
+            f.close()
+
 
             self.policy_update(episode)
         
