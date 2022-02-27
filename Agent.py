@@ -43,7 +43,7 @@ class MonteCarlo:
         # Episode will hold each time step: [[state, action, reward], [...]]
         episode = []
         
-        while not self.interface.lost():
+        while (not self.interface.lost()) or self.interface.won():
             state = self.interface.grid()
             hashableState = self.mh.matrixToString(state)
 
@@ -160,8 +160,11 @@ if __name__ == "__main__":
     mc = MonteCarlo(FILE_URL, 3, 32)
     
     try:
-        l = mc.run_episode()
-        print(l)
+        for i in range(0, 5):
+            l = mc.run_episode()
+            print(l)
+            print()
+            mc.restart()
 
     except selenium.common.exceptions.NoSuchWindowException:
         print("Closed!")
