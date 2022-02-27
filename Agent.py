@@ -39,6 +39,7 @@ class MonteCarlo:
     
     def run_episode(self) -> list:
         self.restart()
+        self.lastScore = 0
         
         # Episode will hold each time step: [[state, action, reward], [...]]
         episode = []
