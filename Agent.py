@@ -66,12 +66,12 @@ class MonteCarlo:
 
             # Get the action base on random n
             top = 0
-            for prob in self.policy[hashableState]:
+            for i in range(0, len(self.policy[hashableState])):
                 # Add prob of action to top
-                top += self.policy[hashableState][prob][1] # This is accessing the prob in (action, 0.xx)
+                top += self.policy[hashableState][i][1] # This is accessing the prob in (action, 0.xx)
 
                 if n < top: # If prob sum is more than n do that action
-                    action = self.policy[hashableState][prob][0] # This is accessing the action in (action, 0.xx)
+                    action = self.policy[hashableState][i][0] # This is accessing the action in (action, 0.xx)
                     break
 
             self.interface.move(action)
@@ -85,7 +85,7 @@ class MonteCarlo:
             # self.interface.lost should be properly breaking while loop
         
         return episode
-
+    '''
     def create_state_action_dictionary(self, policy):
         Q = {}
         for key in policy.keys():
@@ -151,6 +151,7 @@ class MonteCarlo:
                             policy[s_t][a[0]] = (epsilon / abs(sum(policy[s_t].values())))
 
         return policy
+        '''
 
 if __name__ == "__main__":
     FILE_URL = "file:///C:/Users/kylew/Documents/Code/Machine%20Learning/2048%20RL/2048-master/index.html"
