@@ -66,7 +66,7 @@ class Interface:
     def score(self) -> int:
         return self.data()["score"]
     
-    def lost(self) -> bool:
+    def over(self) -> bool:
         return self.data()["over"]
     
     def won(self) -> bool:
