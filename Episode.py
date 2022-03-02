@@ -11,15 +11,17 @@ class Episode:
         self.policy = policy
         self.environment = environment
         self.run_episode()
-        print("Episode Done")
 
     def run_episode(self):
         done = False
-        state = self.environment.restart()
+        state: State = self.environment.restart()
         while(not done):
-            move = self.environment.step(self.policy.getMove(state))
-            self.moves.append(move)
-            state = move[0]
-            self.reward += move[1]
-            done = move[2]
-            self.win = move[3]
+            action = self.policy.getAction(state)
+            self.moves.append([state, action])
+
+            results = self.environment.step(action)
+            state = results[0]
+            self.reward += results[1]
+            done = results[2]
+            self.win = results[3]
+            if self.win: done = True

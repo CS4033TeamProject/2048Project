@@ -5,10 +5,10 @@ class State:
         self.grid = tuple(tuple(sub) for sub in grid)
         #[Action value, set of possible next states]
         self.actions = {
-            "up"    : [None, [] ],
-            "down"  : [None, [] ],
-            "left"  : [None, [] ],
-            "right" : [None, [] ]}
+            "up"    : [0, [] ],
+            "down"  : [0, [] ],
+            "left"  : [0, [] ],
+            "right" : [0, [] ]}
         self.value = 0
         self.previousState = previousState
         self.terminal = terminal

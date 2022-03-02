@@ -17,9 +17,14 @@ class Environment:
         return startState
 
     #Store a new state into the observation space if it's not already stored
-    def addState(self, state) -> None:
-        if(state in self.states): self.states.remove(state)
-        self.states.append(state)
+    def addState(self, new_state) -> None:
+        new_entry = True
+        for state in self.states:
+            if new_state == state:
+                new_entry = False
+                new_state = state
+                break
+        if new_entry: self.states.append(new_state)
         
     
     def step(self, action) -> tuple[State, int, bool, bool]:
