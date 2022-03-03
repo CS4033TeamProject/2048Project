@@ -3,12 +3,12 @@ import Policy
 class State:
     def __init__(self, grid, previousState = None, terminal = False) -> None:
         self.grid = grid
-        #[Action value, set of possible next states]
-        self.actions = {
-            "up"    : [0, [] ],
-            "down"  : [0, [] ],
-            "left"  : [0, [] ],
-            "right" : [0, [] ]}
+        #[action, Action value, set of possible next states]
+        self.actions = [
+            [   "up", 0, [] ],
+            [ "down", 0, [] ],
+            [ "left", 0, [] ],
+            ["right", 0, [] ]]
         self.value = 0
         self.previousState = previousState
         self.terminal = terminal
@@ -20,27 +20,21 @@ class State:
     def __eq__(self, other) -> bool:
         return self.grid == other.grid
 
+    def getNextStates(self, action):
+        for entry in self.actions:
+            if entry[0] == action: return entry[2]
+
     #Sets the next state the action leads to
     def addNextState(self, action, nextState):
-        self.actions[action][1].append(nextState)
+        for entry in self.actions:
+            if entry[0] == action: entry[2].append(nextState)
     
-    def getNextStates(self, action):
-        return self.actions[action][1]
+    #Expected return when starting in state and following policy thereafter  
+    def getActionValue(self, action):
+        for entry in self.actions:
+            if entry[0] == action: return entry[1]
 
-    #Expected return when starting in state and following policy thereafter
-    #@property
-    #def value(self) -> float:
-    #    return self.value
-    
-    @property
-    def action_values(self):
-        action_values = []
-        for action in self.actions:
-            action_values.append(self.actions[action][0])
-        return action_values
-
-    @action_values.setter
-    def setActionValue(self, action_values, value) -> float:
-        for action in action_values:
-            self.actions[action][0] = value
+    def setActionValue(self, action, value) -> float:
+        for entry in self.actions:
+            if entry[0] == action: entry[1] = value
     
