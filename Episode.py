@@ -1,3 +1,4 @@
+from Database import Database
 from Policy import Policy
 from State import State
 from Environment import Environment
@@ -18,7 +19,6 @@ class Episode:
         while(not done):
             action = self.policy.getAction(state)
             self.moves.append([state, action])
-
             results = self.environment.step(action)
             state = results[0]
             self.reward += results[1]

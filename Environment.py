@@ -12,7 +12,8 @@ class Environment:
 
     def restart(self) -> State:
         self.interface.restart()
-        startState = self.database.addState(State(self.interface.grid()))
+        startState = self.database.addState(State(self.interface.grid(), start=True))
+        self.currentState = startState
         return startState        
     
     def step(self, action) -> tuple[State, int, bool, bool]:

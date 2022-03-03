@@ -21,4 +21,4 @@ if __name__ == "__main__":
     environment = Environment(interface = interface ,database=database)
     policy = Policy(database.states, epsilon = 1)
     iterations = 1000
-    algorithm = GLIEMonteCarlo(environment, policy, database, iterations)
+    algorithm = GLIEMonteCarlo(environment, database, policy, iterations)
