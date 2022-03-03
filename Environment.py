@@ -6,7 +6,6 @@ class Environment:
     def __init__(self, interface: Interface, database: Database = Database()) -> None:
         self.interface = interface
         self.database = database
-        self.states = self.database.states
         self.currentState = self.restart()
         #print("Started environment, states are ",self.states, "\nDatabase states are ", self.database.states)
 

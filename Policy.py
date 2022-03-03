@@ -1,11 +1,9 @@
 from cmath import inf
-from os import stat_result
 import random
-import copy
+
 
 class Policy:
-    def __init__(self, states, epsilon = 1) -> None:
-        self.states = states
+    def __init__(self, epsilon = 1) -> None:
         self.epsilon = epsilon
 
     def getAction(self, state):
@@ -25,8 +23,3 @@ class Policy:
             maximum = max(maximum,action[1])
             if maximum == action[1]: move = action[0]
         return move
-
-    def export_policy(self) -> None:
-        f = open("policy.log", "w")
-        f.write(str(self.policyMap))
-        f.close

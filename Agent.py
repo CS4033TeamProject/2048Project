@@ -16,9 +16,8 @@ if __name__ == "__main__":
     GAME_URL = "file:" + os.getcwd() + "/2048-master/index.html"
     DATABASE_URL = "file:" + os.getcwd() + "/2048-master/database.json"
     database = Database(DATABASE_URL)
-    states = database.states
     interface = Interface(GAME_URL, 3, 64)
     environment = Environment(interface = interface ,database=database)
-    policy = Policy(database.states, epsilon = 1)
+    policy = Policy()
     iterations = 1000
     algorithm = GLIEMonteCarlo(environment, database, policy, iterations)
