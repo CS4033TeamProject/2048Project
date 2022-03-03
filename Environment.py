@@ -19,19 +19,23 @@ class Environment:
         #Make a move in the game
         self.interface.move(action)
         
+        #Get the reward, if we won, and extra info
+        reward = self.getReward()
+        over = self.interface.over()
+        won = self.interface.won()
+
         #Get the next state, and add it to the database of states
         next_state = self.database.addState(State(self.interface.grid()))
         
         #Add to the current state's action the next state
         self.currentState.addNextState(action,next_state)
+        #Increment state action times visited
+        self.currentState.incrementTimesVisited(action)
 
         #Set current state as next state
         self.currentState = next_state
-
-        #Get the reward, if we won, and extra info
-        reward = self.getReward()
-        over = self.interface.over()
-        won = self.interface.won()
+        #Set state as terminal if done
+        if(over or won): self.currentState.terminal = True
 
         return next_state, reward, over, won
     
