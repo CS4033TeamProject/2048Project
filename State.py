@@ -2,7 +2,7 @@ import Policy
 
 class State:
     def __init__(self, grid, previousState = None, terminal = False) -> None:
-        self.grid = tuple(tuple(sub) for sub in grid)
+        self.grid = grid
         #[Action value, set of possible next states]
         self.actions = {
             "up"    : [0, [] ],

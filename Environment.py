@@ -12,30 +12,17 @@ class Environment:
 
     def restart(self) -> State:
         self.interface.restart()
-        startState = State(self.interface.grid())
-        self.addState(startState)
-        return startState
-
-    #Store a new state into the observation space if it's not already stored
-    def addState(self, new_state) -> None:
-        new_entry = True
-        for state in self.states:
-            if new_state == state:
-                new_entry = False
-                new_state = state
-                break
-        if new_entry: self.states.append(new_state)
-        
+        startState = self.database.addState(State(self.interface.grid()))
+        return startState        
     
     def step(self, action) -> tuple[State, int, bool, bool]:
         #Make a move in the game
         self.interface.move(action)
         
-        #Get the next state, and add it to the list of states
-        next_state = State(self.interface.grid())
-        self.addState(next_state)
+        #Get the next state, and add it to the database of states
+        next_state = self.database.addState(State(self.interface.grid()))
         
-        #Pair the current state's action to the next state
+        #Add to the current state's action the next state
         self.currentState.addNextState(action,next_state)
 
         #Set current state as next state

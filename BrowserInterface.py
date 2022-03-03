@@ -54,13 +54,13 @@ class Interface:
                 else:
                     temp.append(0)
             
-            tiles.append(temp)
+            tiles.append(tuple(temp))
         
-        data["grid"] = tiles
+        data["grid"] = tuple(tiles)
         
         return data
     
-    def grid(self) -> list:
+    def grid(self) -> tuple:
         return self.data()["grid"]
     
     def score(self) -> int:
