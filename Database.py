@@ -1,3 +1,5 @@
+import pickle
+
 class Database:
     def __init__(self, FILE_URL = 'database.json') -> None:
         self.states = dict()
@@ -22,3 +24,19 @@ class Database:
                 wins += 1
         
         return wins / number_of_episodes
+
+    def save_db(self):
+        try:
+            with open("data.pickle", "wb") as f:
+                pickle.dump(self, f, protocol=pickle.HIGHEST_PROTOCOL)
+        except Exception as ex:
+            print("Error during pickling object (Possibly unsupported):", ex)
+
+
+    def load_db(filename = "data.pickle"):
+        try:
+            with open(filename, "rb") as f:
+                return pickle.load(f)
+        except Exception as ex:
+            print("Error during unpickling object (Possibly unsupported):", ex)
+    

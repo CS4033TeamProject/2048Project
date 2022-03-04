@@ -1,5 +1,7 @@
 import os
 import random
+
+from h11 import Data
 from Environment import Environment
 from Episode import Episode
 from Policy import Policy
@@ -15,9 +17,11 @@ from MatrixHasher import MatrixHasher
 if __name__ == "__main__":
     GAME_URL = "file:" + os.getcwd() + "/2048-master/index.html"
     DATABASE_URL = "file:" + os.getcwd() + "/2048-master/database.json"
-    database = Database(DATABASE_URL)
+    database = Database.load_db()
     interface = Interface(GAME_URL, 3, 64)
     environment = Environment(interface = interface ,database=database)
     policy = Policy()
-    iterations = 1000
-    algorithm = GLIEMonteCarlo(environment, database, policy, iterations)
+    iterations = 10
+    print(database)
+    #algorithm = GLIEMonteCarlo(environment, database, policy, iterations)
+    #database.save_db()
