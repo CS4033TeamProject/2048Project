@@ -3,7 +3,7 @@ import pickle
 class Database:
     def __init__(self, FILE_URL = 'database.pickle') -> None:
         self.states = dict()
-        self.episodes = dict()
+        self.episodes = []
         self.FILE_URL = FILE_URL
     
         #Store a new state into the database if it's not already stored
@@ -15,9 +15,9 @@ class Database:
         return new_state
     
     def addEpisode(self, new_episode) -> None:
-        self.episodes[new_episode] = new_episode
+        self.episodes.append(new_episode)
         return new_episode
-        
+
     def getState(self, state):
         return self.states[state]
         

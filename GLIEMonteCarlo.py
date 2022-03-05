@@ -20,12 +20,11 @@ class GLIEMonteCarlo:
 
         while(self.episodes < self.iterations):
             episode = Episode(self.environment, self.policy)
+            database.addEpisode(episode)
             self.update(episode)
             self.episodes += 1
             self.epsilon = 1/self.episodes
             self.policy.epsilon = self.epsilon
-            if episode.win: self.wins+=1
-            print("Win percent: ", self.wins/self.episodes)
 
     ##TODO: Store N and Q within state, reduce the loops
     def update(self, episode: Episode):

@@ -10,16 +10,15 @@ class Episode:
         self.reward = 0
         self.win = False
         self.policy = policy
-        self.environment = environment
-        self.run_episode()
+        self.run_episode(environment=environment)
 
-    def run_episode(self):
+    def run_episode(self, environment):
         done = False
-        state: State = self.environment.restart()
+        state: State = environment.restart()
         while(not done):
             action = self.policy.getAction(state)
             self.moves.append([state, action])
-            results = self.environment.step(action)
+            results = environment.step(action)
             state = results[0]
             self.reward += results[1]
             done = results[2]

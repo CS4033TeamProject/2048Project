@@ -17,11 +17,10 @@ from MatrixHasher import MatrixHasher
 if __name__ == "__main__":
     GAME_URL = "file:" + os.getcwd() + "/2048-master/index.html"
     DATABASE_URL = "file:" + os.getcwd() + "/2048-master/database.pickle"
-    database = Database.load_db()
+    database = Database()
     interface = Interface(GAME_URL, 3, 64)
     environment = Environment(interface = interface ,database=database)
     policy = Policy()
-    iterations = 10
-    print(database)
-    #algorithm = GLIEMonteCarlo(environment, database, policy, iterations)
-    #database.save_db()
+    iterations = 100
+    algorithm = GLIEMonteCarlo(environment, database, policy, iterations)
+    database.save_db()
