@@ -21,6 +21,7 @@ class Interface:
 
         # Setting up keyboard input
         self.input = self.browser.find_element_by_class_name("container")
+        self.data = self.getData()
     
     def move(self, direction: str) -> None:
         keymap = {
@@ -33,6 +34,7 @@ class Interface:
         actions = ActionChains(self.browser)
         actions.send_keys(keymap[direction])
         actions.perform()
+        self.data = self.getData()
     
     def restart(self) -> None:
         actions = ActionChains(self.browser)
@@ -40,7 +42,7 @@ class Interface:
         actions.perform()
 
     
-    def data(self) -> dict:
+    def getData(self) -> dict:
         tiles = []
         data = json.loads(self.browser.find_element_by_id("this-better-work").text)
         
@@ -61,13 +63,13 @@ class Interface:
         return data
     
     def grid(self) -> tuple:
-        return self.data()["grid"]
+        return self.data["grid"]
     
     def score(self) -> int:
-        return self.data()["score"]
+        return self.data["score"]
     
     def over(self) -> bool:
-        return self.data()["over"]
+        return self.data["over"]
     
     def won(self) -> bool:
         grid = self.grid()
