@@ -18,8 +18,8 @@ class Policy:
         return move
 
     def selectGreedy(self, state):
-        maximum = -inf
-        for action in state.actions:
-            maximum = max(maximum,action[1])
-            if maximum == action[1]: move = action[0]
+        action_values = state.getActionValues()
+        max_value = max(action_values)
+        index = random.choice([i for i in range(len(action_values)) if action_values[i] == max_value])
+        move = (state.actions[index])[0]
         return move

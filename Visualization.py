@@ -6,6 +6,7 @@ from Database import Database
 def plotWins(database: Database):
     x = range(1, len(database.episodes) + 1)
     y = [episode.win for episode in database.episodes]
+    print("Win rate = ", sum(y)/len(database.episodes))
     fig, ax = plt.subplots()
     ax.plot(x, y)
     plt.show()

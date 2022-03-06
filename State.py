@@ -22,7 +22,9 @@ class State:
         return self.grid == other.grid
 
 
-    
+    #gets a list of the action values
+    def getActionValues(self):
+         return [item[1] for item in self.actions]
     #Expected return when starting in state and following policy thereafter  
     def getActionValue(self, action):
         for entry in self.actions:

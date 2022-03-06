@@ -21,6 +21,6 @@ if __name__ == "__main__":
     interface = Interface(GAME_URL, 3, 64)
     environment = Environment(interface = interface ,database=database)
     policy = Policy()
-    iterations = 100
+    iterations = 1000
     algorithm = GLIEMonteCarlo(environment, database, policy, iterations)
     database.save_db()
