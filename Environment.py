@@ -15,7 +15,8 @@ class Environment:
         self.currentState = startState
         return startState        
     
-    def step(self, action) -> tuple[State, int, bool, bool]:
+                              # [State, int, bool, bool]
+    def step(self, action) -> tuple:
         #Make a move in the game
         self.interface.move(action)
         
