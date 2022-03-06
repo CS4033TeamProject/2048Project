@@ -56,6 +56,7 @@ GameManager.prototype.setup = function () {
 
   // Update the actuator
   this.actuate();
+  document.getElementById("this-better-work").innerHTML = JSON.stringify(this.serialize());
 };
 
 // Set up the initial tiles to start the game with
