@@ -21,10 +21,18 @@ class State:
     def __eq__(self, other) -> bool:
         return self.grid == other.grid
 
+    def getAvailableActions(self):
+        availableActions = []
+        for action in self.actions:
+            legit_move = True
+            for next_state in self.getNextStates(action[0]):
+                if next_state == self: legit_move = False
+            if legit_move: availableActions.append(action[0])
+        return availableActions
 
     #gets a list of the action values
     def getActionValues(self):
-         return [item[1] for item in self.actions]
+         return [item[1] for item in self.getAvailableActions()]
     #Expected return when starting in state and following policy thereafter  
     def getActionValue(self, action):
         for entry in self.actions:

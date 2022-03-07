@@ -14,12 +14,12 @@ class Policy:
             return self.selectRandom(state)
             
     def selectRandom(self, state):
-        move = random.choice(state.actions)[0]
+        move = random.choice(state.getAvailableActions())
         return move
 
     def selectGreedy(self, state):
         action_values = state.getActionValues()
         max_value = max(action_values)
         index = random.choice([i for i in range(len(action_values)) if action_values[i] == max_value])
-        move = (state.actions[index])[0]
+        move = (state.getAvailableActions()[index])
         return move
