@@ -20,7 +20,7 @@ if __name__ == "__main__":
     try:
         GAME_URL = "file:" + os.getcwd() + "/2048-master/index.html"
         DATABASE_URL = "file:" + os.getcwd() + "/2048-master/database.pickle"
-        database = Database()
+        database = Database.load_db()
         interface = Interface(GAME_URL, 3, 64)
         environment = Environment(interface = interface ,database=database)
         policy = Policy()
