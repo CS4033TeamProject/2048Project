@@ -20,9 +20,11 @@ class GLIEMonteCarlo:
 
         while(self.episodes < self.iterations):
             episode = Episode(self.environment, self.policy)
+            
             database.addEpisode(episode)
             self.update(episode)
             self.episodes += 1
+            print("Episode ", self.episodes)
             self.epsilon = 1/self.episodes
             self.policy.epsilon = self.epsilon
 

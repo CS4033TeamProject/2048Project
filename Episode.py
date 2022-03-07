@@ -1,10 +1,5 @@
-from Database import Database
-from Policy import Policy
-from State import State
-from Environment import Environment
-
 class Episode:
-    def __init__(self, environment: Environment, policy: Policy) -> None:
+    def __init__(self, environment, policy) -> None:
         #move = (state, action, reward)
         self.moves = []
         self.reward = 0
@@ -14,7 +9,7 @@ class Episode:
 
     def run_episode(self, environment):
         done = False
-        state: State = environment.restart()
+        state = environment.restart()
         while(not done):
             action = self.policy.getAction(state)
             self.moves.append([state, action])

@@ -1,5 +1,3 @@
-import Policy
-
 class State:
     def __init__(self, grid, previousState = None, start = False, terminal = False) -> None:
         self.grid = grid
@@ -26,7 +24,7 @@ class State:
         for action in self.actions:
             legit_move = True
             for next_state in self.getNextStates(action[0]):
-                if next_state == self: legit_move = False
+                if next_state == self.grid: legit_move = False
             if legit_move: availableActions.append(action[0])
         return availableActions
 
@@ -59,4 +57,4 @@ class State:
     #Sets the next state the action leads to
     def addNextState(self, action, nextState):
         for entry in self.actions:
-            if entry[0] == action: entry[3].append(nextState)
+            if entry[0] == action: entry[3].append(nextState.grid)
