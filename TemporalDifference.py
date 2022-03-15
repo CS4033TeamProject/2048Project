@@ -19,7 +19,7 @@ def TemporalDifference(alpha, discount_rate, iterations, trace_decay = 0):
     #Initialize states with V = 0, Q = 0, e = 0
     GAME_URL = "file:" + os.getcwd() + "/2048-master/index.html"
     DATABASE_URL = "file:" + os.getcwd() + "/2048-master/TDdatabase.pickle"
-    database = Database("TD_Database.pickle")
+    database = Database.load_db("TD_Database.pickle")
     interface = Interface(GAME_URL, 3, 32)
     environment = Environment(interface = interface ,database=database)
     policy = Policy(epsilon=0)

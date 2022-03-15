@@ -27,8 +27,8 @@ if __name__ == "__main__":
         # iterations = 50000
         # algorithm = GLIEMonteCarlo(environment, database, policy, iterations)
         # database.save_db()
-        alpha = .05
-        discount_rate = 0.9
+        alpha = .1
+        discount_rate = 0.5
         iterations = 500
         TemporalDifference(alpha=alpha, discount_rate=discount_rate, iterations=iterations)
     except selenium.common.exceptions.NoSuchWindowException:
