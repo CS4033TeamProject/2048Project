@@ -21,10 +21,10 @@ if __name__ == "__main__":
         GAME_URL = "file:" + os.getcwd() + "/2048-master/index.html"
         DATABASE_URL = "file:" + os.getcwd() + "/2048-master/database.pickle"
         database = Database.load_db()
-        interface = Interface(GAME_URL, 3, 64)
+        interface = Interface(GAME_URL, 3, 32)
         environment = Environment(interface = interface ,database=database)
         policy = Policy()
-        iterations = 1000
+        iterations = 50000
         algorithm = GLIEMonteCarlo(environment, database, policy, iterations)
         database.save_db()
     except selenium.common.exceptions.NoSuchWindowException:
