@@ -28,9 +28,12 @@ if __name__ == "__main__":
         # algorithm = GLIEMonteCarlo(environment, database, policy, iterations)
         # database.save_db()
         alpha = .1
-        discount_rate = 0.5
-        iterations = 5
-        TemporalDifference(alpha=alpha, discount_rate=discount_rate, iterations=iterations)
+        discount_rate = 0.0
+        iterations = 500
+        while discount_rate < 1:
+            discount_rate += .1
+            TemporalDifference(alpha=alpha, discount_rate=discount_rate, iterations=iterations)
+        
     except selenium.common.exceptions.NoSuchWindowException:
         # database.save_db()
         print("Closed!")
