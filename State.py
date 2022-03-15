@@ -1,13 +1,14 @@
 class State:
     def __init__(self, grid, previousState = None, start = False, terminal = False) -> None:
         self.grid = grid
-        #[action, Action value, times visited, set of possible next states]
+        #[action, Action value, times visited, set of possible next states, eligibility_trace]
         self.actions = [
-            [   "up", 0, 0, [] ],
-            [ "down", 0, 0, [] ],
-            [ "left", 0, 0, [] ],
-            ["right", 0, 0, [] ]]
+            [   "up", 0, 0, [], 0 ],
+            [ "down", 0, 0, [], 0 ],
+            [ "left", 0, 0, [], 0 ],
+            ["right", 0, 0, [], 0 ]]
         self.value = 0
+        self.eligibility_trace = 0
         self.previousState = previousState
         self.start = start
         self.terminal = terminal
@@ -39,6 +40,15 @@ class State:
     def setActionValue(self, action, value) -> float:
         for entry in self.actions:
             if entry[0] == action: entry[1] = value
+
+        #Expected return when starting in state and following policy thereafter  
+    def getEligibilityTrace(self, action):
+        for entry in self.actions:
+            if entry[0] == action: return entry[4]
+
+    def setEligibilityTrace(self, action, value) -> float:
+        for entry in self.actions:
+            if entry[0] == action: entry[4] = value
 
     def getTimesVisited(self, action):
         for entry in self.actions:

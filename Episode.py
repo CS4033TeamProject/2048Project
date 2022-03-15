@@ -5,7 +5,7 @@ class Episode:
         self.reward = 0
         self.win = False
         self.policy = policy
-        self.run_episode(environment=environment)
+        #self.run_episode(environment=environment)
 
     def run_episode(self, environment):
         done = False

@@ -1,3 +1,4 @@
+from h11 import Data
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -12,4 +13,14 @@ def plotWins(database: Database):
     fig, ax = plt.subplots()
     ax.plot(x, y)
     plt.show()
-plotWins(Database.load_db())
+
+
+def printActionValues(database: Database):
+    for state in database.states.values():
+        for action in state.actions:
+            if action[1] != 0: print(action[1])
+
+if __name__ == "__main__":
+    database = Database.load_db("TD_Database.pickle")
+    #plotWins(database=database)
+    printActionValues(database=database)
