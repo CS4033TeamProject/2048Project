@@ -39,9 +39,13 @@ class Database:
 
 
     def load_db(FILE_URL = 'database.pickle'):
+
         try:
             with open(FILE_URL, "rb") as f:
                 return pickle.load(f)
+        except IOError:
+            print("Database file not found, creating new database")
+            return Database(FILE_URL)
         except Exception as ex:
             print("Error during unpickling object (Possibly unsupported):", ex)
     

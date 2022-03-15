@@ -29,7 +29,7 @@ if __name__ == "__main__":
         # database.save_db()
         alpha = .1
         discount_rate = 0.5
-        iterations = 500
+        iterations = 5
         TemporalDifference(alpha=alpha, discount_rate=discount_rate, iterations=iterations)
     except selenium.common.exceptions.NoSuchWindowException:
         # database.save_db()
