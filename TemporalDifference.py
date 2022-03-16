@@ -21,7 +21,7 @@ def TemporalDifference(alpha, discount_rate, iterations, trace_decay = 0):
     DATABASE_URL = "file:" + os.getcwd() + "/2048-master/TDdatabase.pickle"
     database_name = "TD_Database" + "_alpha_" + str(alpha) + "_discount_" + str(discount_rate) + ".pickle"
     database = Database.load_db(database_name)
-    interface = Interface(GAME_URL, 3, 32)
+    interface = Interface(GAME_URL, 2, 16)
     environment = Environment(interface = interface ,database=database)
     policy = Policy(epsilon=0)
     episode_number = 0
