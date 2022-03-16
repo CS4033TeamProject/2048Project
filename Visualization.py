@@ -34,6 +34,5 @@ def printActionValues(database: Database):
 
 if __name__ == "__main__":
     database1 = Database.load_db("TD_Database_alpha_0.1_discount_0.1.pickle")
-    database2 = Database.load_db("TD_Database_alpha_0.1_discount_0.2.pickle")
-    plotWins([database1,database2])
+    plotWins([database1])
     #printActionValues(database=database)

@@ -18,7 +18,7 @@ from MatrixHasher import MatrixHasher
 def TemporalDifference(alpha, discount_rate, iterations, trace_decay = 0):
     #Initialize states with V = 0, Q = 0, e = 0
     GAME_URL = "file:" + os.getcwd() + "/2048-master/index.html"
-    DATABASE_URL = "file:" + os.getcwd() + "/2048-master/TDdatabase.pickle"
+    DATABASE_URL = "file:" + os.getcwd() + "/2048-master/TDdatabase_2x2.pickle"
     database_name = "TD_Database" + "_alpha_" + str(alpha) + "_discount_" + str(discount_rate) + ".pickle"
     database = Database.load_db(database_name)
     interface = Interface(GAME_URL, 2, 16)
