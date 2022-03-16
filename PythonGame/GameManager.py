@@ -4,7 +4,7 @@ import random
 ##"C:\\Users\\tyler\\OneDrive\\Documents\\OU\\Spring 2022\\Machine Learning\\2048Project\\2048-master\\js\\game_manager.js"
 
 class GameManager():
-    def __init__(self, size, win_tile, InputManager, Actuator, StorageManager) -> None:
+    def __init__(self, size, win_tile, InputManager = None, Actuator = None, StorageManager = None) -> None:
         self.size = size 
         self.win_tile = win_tile
         #self.inputManager = InputManager
@@ -236,7 +236,7 @@ class GameManager():
         return first["x"] == second.x and first["y"] == second.y
 
 if __name__ == "__main__":
-    game = GameManager(3, 16, None, None, None)
+    game = GameManager(3, 16)
     while(game.over == False):
         game.grid.printToTerminal()
         print("Enter move:")
