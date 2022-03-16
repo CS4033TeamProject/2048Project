@@ -27,13 +27,17 @@ if __name__ == "__main__":
         # iterations = 50000
         # algorithm = GLIEMonteCarlo(environment, database, policy, iterations)
         # database.save_db()
-        alpha = .1
-        discount_rate = 0.0
-        iterations = 500
-        while discount_rate < 1:
-            discount_rate += .1
-            TemporalDifference(alpha=alpha, discount_rate=discount_rate, iterations=iterations)
-        
+
+        #Iterate forever with discount rates .1-.9
+        while True:
+            alpha = .1
+            discount_rate = .1
+            iterations = 1000
+            while discount_rate < 1:
+                TemporalDifference(alpha=alpha, discount_rate=discount_rate, iterations=iterations)
+                discount_rate += .1
+                discount_rate = round(discount_rate, 1)
+
     except selenium.common.exceptions.NoSuchWindowException:
         # database.save_db()
         print("Closed!")

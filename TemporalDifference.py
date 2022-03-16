@@ -1,5 +1,6 @@
 import os
 import random
+from this import d
 
 from Environment import Environment
 from Episode import Episode
@@ -19,7 +20,8 @@ def TemporalDifference(alpha, discount_rate, iterations, trace_decay = 0):
     #Initialize states with V = 0, Q = 0, e = 0
     GAME_URL = "file:" + os.getcwd() + "/2048-master/index.html"
     DATABASE_URL = "file:" + os.getcwd() + "/2048-master/TDdatabase.pickle"
-    database_name = "TD_Database" + "_alpha_" + str(alpha) + "_discount_" + str(discount_rate) + ".pickle"
+    database_name = "TD_Database_alpha_{:.1f}_discount_{:.1f}.pickle".format(alpha, discount_rate)
+    print(database_name)
     database = Database.load_db(database_name)
     interface = Interface(GAME_URL, 3, 32)
     environment = Environment(interface = interface ,database=database)

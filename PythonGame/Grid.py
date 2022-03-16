@@ -77,7 +77,7 @@ class Grid():
         self.cells[tile.x][tile.y] = tile
 
     def removeTile(self, tile):
-        self.cells[tile.x][tile.x] = None
+        self.cells[tile.x][tile.y] = None
 
     def withinBounds(self, position):
         return (position["x"] >= 0) and (position["x"] < self.size) and (position["y"] >= 0) and (position["y"] < self.size)

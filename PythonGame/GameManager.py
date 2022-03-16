@@ -4,8 +4,9 @@ import random
 ##"C:\\Users\\tyler\\OneDrive\\Documents\\OU\\Spring 2022\\Machine Learning\\2048Project\\2048-master\\js\\game_manager.js"
 
 class GameManager():
-    def __init__(self, size, InputManager, Actuator, StorageManager) -> None:
+    def __init__(self, size, win_tile, InputManager, Actuator, StorageManager) -> None:
         self.size = size 
+        self.win_tile = win_tile
         #self.inputManager = InputManager
         #self.storageManager = StorageManager
         #self.actuator       = Actuator
@@ -154,7 +155,7 @@ class GameManager():
                         self.score += merged.value
 
                         # The mighty 2048 tile
-                        if merged.value == 2048: self.won = True
+                        if merged.value == self.win_tile: self.won = True
                     else:
                         self.moveTile(tile, positions["farthest"])
 
@@ -235,11 +236,17 @@ class GameManager():
         return first["x"] == second.x and first["y"] == second.y
 
 if __name__ == "__main__":
-    game = GameManager(3, None, None, None)
+    game = GameManager(3, 16, None, None, None)
     while(game.over == False):
         game.grid.printToTerminal()
         print("Enter move:")
         move = input()
+        if move == 'quit': break
+        if move == 'r': 
+            game.restart()
+            continue
         game.move(move)
-        
+        if game.won == True:
+            print("You win!")
+            break
     print("Game over!")

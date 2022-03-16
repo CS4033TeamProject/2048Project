@@ -7,7 +7,7 @@ from Database import Database
 def plotWins(databases):
     
     plot = 0
-    colors = ['red', 'green', 'blue', 'purple']
+    colors = ['blue','orange','green','red','purple','brown','pink','gray','olive','cyan']
     fig, ax = plt.subplots()
     
     for database in databases:
@@ -24,6 +24,7 @@ def plotWins(databases):
         
         ax.plot(x, y, color = colors[plot], label = str(plot))
     ax.legend(loc = 'upper right')
+    plt.xlim(0,1000)
     plt.show()
 
 
@@ -35,5 +36,12 @@ def printActionValues(database: Database):
 if __name__ == "__main__":
     database1 = Database.load_db("TD_Database_alpha_0.1_discount_0.1.pickle")
     database2 = Database.load_db("TD_Database_alpha_0.1_discount_0.2.pickle")
-    plotWins([database1,database2])
+    database3 = Database.load_db("TD_Database_alpha_0.1_discount_0.3.pickle")
+    database4 = Database.load_db("TD_Database_alpha_0.1_discount_0.4.pickle")
+    database5 = Database.load_db("TD_Database_alpha_0.1_discount_0.5.pickle")
+    database6 = Database.load_db("TD_Database_alpha_0.1_discount_0.6.pickle")
+    database7 = Database.load_db("TD_Database_alpha_0.1_discount_0.7.pickle")
+    database8 = Database.load_db("TD_Database_alpha_0.1_discount_0.8.pickle")
+    database9 = Database.load_db("TD_Database_alpha_0.1_discount_0.9.pickle")
+    plotWins([database1,database2,database3,database4,database5,database6,database7,database8,database9])
     #printActionValues(database=database)
