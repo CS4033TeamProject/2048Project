@@ -1,7 +1,5 @@
 import os
 import random
-from this import d
-
 from Environment import Environment
 from Episode import Episode
 from Policy import Policy
@@ -20,6 +18,7 @@ def TemporalDifference(alpha, discount_rate, iterations, trace_decay = 0):
     #Initialize states with V = 0, Q = 0, e = 0
     GAME_URL = "file:" + os.getcwd() + "/2048-master/index.html"
     DATABASE_URL = "file:" + os.getcwd() + "/2048-master/TDdatabase.pickle"
+    #database_name = "negative10reward.pickle"
     database_name = "TD_Database_alpha_{:.1f}_discount_{:.1f}.pickle".format(alpha, discount_rate)
     print(database_name)
     database = Database.load_db(database_name)
@@ -37,14 +36,13 @@ def TemporalDifference(alpha, discount_rate, iterations, trace_decay = 0):
         state = environment.restart()
         print(episode_number)
         while(not done):
-            action = policy.getAction(state)
-            #next_state, reward, over, won
-            results = environment.step(action)
+            results = environment.step(policy)
             nextState = results[0]
+            action = results[1]
             nextAction = policy.getAction(nextState)
-            reward = results[1]
-            done = results[2]
-            win = results[3]
+            reward = results[2]
+            done = results[3]
+            win = results[4]
             if win: done = True
 
             error = reward + discount_rate * nextState.getActionValue(nextAction) - state.getActionValue(action)

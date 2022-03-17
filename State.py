@@ -23,15 +23,17 @@ class State:
     def getAvailableActions(self):
         availableActions = []
         for action in self.actions:
-            legit_move = True
-            for next_state in self.getNextStates(action[0]):
-                if next_state == self.grid: legit_move = False
-            if legit_move: availableActions.append(action[0])
+            availableActions.append(action[0])
+        #     legit_move = True
+        #     for next_state in self.getNextStates(action[0]):
+        #         if next_state == self.grid: legit_move = False
+        #     if legit_move: availableActions.append(action[0])
+        
         return availableActions
 
     #gets a list of the action values
     def getActionValues(self):
-         return [item[1] for item in self.getAvailableActions()]
+         return [item[1] for item in self.actions]
     #Expected return when starting in state and following policy thereafter  
     def getActionValue(self, action):
         for entry in self.actions:
@@ -66,5 +68,11 @@ class State:
 
     #Sets the next state the action leads to
     def addNextState(self, action, nextState):
+        #If this was an invalid move (leads to itself), remove this action from list
+        if nextState == self:
+            for index in self.actions:
+                if index[0] == action: self.actions.remove(index)
+            return False
         for entry in self.actions:
             if entry[0] == action: entry[3].append(nextState.grid)
+            return True

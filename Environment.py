@@ -16,20 +16,24 @@ class Environment:
         return startState        
     
                               # [State, int, bool, bool]
-    def step(self, action) -> tuple:
-        #Make a move in the game
-        self.interface.move(action)
-        
+    def step(self, policy) -> tuple:
+        moved = False
+        while not moved:
+            #Get action from policy
+            action = policy.getAction(self.currentState)
+            #Make a move in the game
+            self.interface.move(action)
+            #Get the next state, and add it to the database of states
+            next_state = self.database.addState(State(self.interface.grid()))
+            #Add to the current state's action the next state
+            moved = self.currentState.addNextState(action,next_state)
+            #If we didnt move, repeat with invalid move removed
+
         #Get the reward, if we won, and extra info
         reward = self.getReward()
         over = self.interface.over()
         won = self.interface.won()
 
-        #Get the next state, and add it to the database of states
-        next_state = self.database.addState(State(self.interface.grid()))
-        
-        #Add to the current state's action the next state
-        self.currentState.addNextState(action,next_state)
         #Increment state action times visited
         self.currentState.incrementTimesVisited(action)
 
@@ -38,7 +42,7 @@ class Environment:
         #Set state as terminal if done
         if(over or won): self.currentState.terminal = True
 
-        return next_state, reward, over, won
+        return next_state, action, reward, over, won
     
     def getReward(self) -> int:
         if(self.interface.over()):
