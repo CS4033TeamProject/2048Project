@@ -14,12 +14,12 @@ import selenium
 from BrowserInterface import Interface
 from MatrixHasher import MatrixHasher
 
-def runSarsa():
+def runSarsa(eps: int):
         #Iterate forever with discount rates .1-.9
     while True:
         alpha = .2
         discount_rate = .5
-        iterations = 1000
+        iterations = eps
         while discount_rate < .6:
             TemporalDifference(alpha=alpha, discount_rate=discount_rate, iterations=iterations)
             discount_rate += .1
@@ -44,7 +44,7 @@ def runRandom():
 
 if __name__ == "__main__":
     try:
-        runSarsa()
+        runSarsa(10000)
         #runRandom()
         # GAME_URL = "file:" + os.getcwd() + "/2048-master/index.html"
         # DATABASE_URL = "file:" + os.getcwd() + "/2048-master/database.pickle"
