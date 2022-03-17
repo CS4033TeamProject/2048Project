@@ -4,7 +4,7 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
   this.storageManager = new StorageManager;
   this.actuator       = new Actuator;
 
-  this.startTiles     = 2;
+  this.startTiles     = 1;
 
   this.inputManager.on("move", this.move.bind(this));
   this.inputManager.on("restart", this.restart.bind(this));
@@ -61,9 +61,8 @@ GameManager.prototype.setup = function () {
 
 // Set up the initial tiles to start the game with
 GameManager.prototype.addStartTiles = function () {
-  for (var i = 0; i < this.startTiles; i++) {
-    this.addRandomTile();
-  }
+  var tile = new Tile({x: 0, y: 0}, 2)
+  this.grid.insertTile(tile);
   document.getElementById("this-better-work").innerHTML = JSON.stringify(this.serialize());
 };
 
