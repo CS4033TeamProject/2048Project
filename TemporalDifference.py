@@ -22,10 +22,11 @@ def TemporalDifference(alpha, discount_rate, iterations, trace_decay = 0):
     database_name = "TD_Database_alpha_{:.1f}_discount_{:.1f}.pickle".format(alpha, discount_rate)
     print(database_name)
     database = Database.load_db(database_name)
-    interface = Interface(GAME_URL, 3, 32)
+    interface = Interface(GAME_URL, 2, 16)
     environment = Environment(interface = interface ,database=database)
     policy = Policy(epsilon=0)
     episode_number = 0
+    wins = 0
     while(episode_number < iterations):
         #Re-initialize eleigibility traces vector to 0.0 at beginning of each episode
         done = False
@@ -34,7 +35,7 @@ def TemporalDifference(alpha, discount_rate, iterations, trace_decay = 0):
         episode_number += 1
         episode = Episode(None, None)
         state = environment.restart()
-        print(episode_number)
+        print(f"{episode_number}, {wins / (episode_number + 1)}")
         while(not done):
             results = environment.step(policy)
             nextState = results[0]
@@ -53,6 +54,8 @@ def TemporalDifference(alpha, discount_rate, iterations, trace_decay = 0):
                     state.setActionValue(action_name, state.getActionValue(action_name) + alpha * error * state.getEligibilityTrace(action_name))
                     state.setEligibilityTrace(action, discount_rate * trace_decay * state.getEligibilityTrace(action_name))
             state = nextState
-        if win: episode.win = True
+        if win: 
+            episode.win = True
+            wins += 1
         database.addEpisode(episode)
     database.save_db()
