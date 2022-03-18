@@ -1,10 +1,11 @@
 import pickle
 
 class Database:
-    def __init__(self, FILE_URL = 'database.pickle') -> None:
+    def __init__(self, name = 'database.pickle') -> None:
         self.states = dict()
         self.episodes = []
-        self.FILE_URL = FILE_URL
+        self.name = name
+        self.FILE_URL = "Databases/" + name + ".pickle"
     
         #Store a new state into the database if it's not already stored
     def addState(self, new_state) -> None:
@@ -38,14 +39,14 @@ class Database:
             print("Error during pickling object (Possibly unsupported):", ex)
 
 
-    def load_db(FILE_URL = 'database.pickle'):
-        FILE_URL = "Databases/" + FILE_URL
+    def load_db(name):
+        FILE_URL = "Databases/" + name + ".pickle"
         try:
             with open(FILE_URL, "rb") as f:
                 return pickle.load(f)
         except IOError:
             print("Database file not found, creating new database")
-            return Database(FILE_URL)
+            return Database(name)
         except Exception as ex:
             print("Error during unpickling object (Possibly unsupported):", ex)
     

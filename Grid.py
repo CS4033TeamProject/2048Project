@@ -6,46 +6,36 @@ class Grid():
         self.size = size
         self.cells = self.fromState(previousState) if previousState else self.empty()
 
-
     # Build a grid of the specified size
     def empty(self):
         cells = []
-
         for x in range(self.size):
             cells.append([])
             row = cells[x]
-
             for y in range(self.size):
                 row.append(None)
-
         return cells
 
     def fromState(self, state):
         cells = []
-
         for x in range(self.size):
             row = cells[x] = []
-
             for y in range(self.size):
                 tile = state[x][y]
                 row.push(tile if Tile(tile.position, tile.value) else None)
-
         return cells
 
     # Find the first available random position
     def randomAvailableCell(self):
         cells = self.availableCells()
-
         if (len(cells)):
             return cells[math.floor(random.random() * len(cells))]
 
     def availableCells(self):
         cells = []
-
         def callback(x, y, tile):
             if (not tile): 
                 cells.append({ "x": x, "y": y })
-
         self.eachCell(callback)
         return cells
 
@@ -93,11 +83,9 @@ class Grid():
 
     def serialize(self):
         cellState = []
-
         for x in range(self.size):
             cellState.append([])
             row = cellState[x]
-
             for y in range(self.size):
                 row.append(self.cells[x][y].serialize() if self.cells[x][y] else None)
 

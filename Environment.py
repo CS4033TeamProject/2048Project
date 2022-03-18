@@ -1,9 +1,8 @@
 from Database import Database
 from State import State
-from BrowserInterface import Interface
 
 class Environment:
-    def __init__(self, interface: Interface, database: Database = Database()) -> None:
+    def __init__(self, interface, database) -> None:
         self.interface = interface
         self.database = database
         self.currentState = self.restart()
@@ -15,7 +14,6 @@ class Environment:
         self.currentState = startState
         return startState        
     
-                              # [State, int, bool, bool]
     def step(self, policy) -> tuple:
         moved = False
         while not moved:

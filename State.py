@@ -20,31 +20,24 @@ class State:
     def __eq__(self, other) -> bool:
         return self.grid == other.grid
 
-    def getAvailableActions(self):
-        availableActions = []
-        for action in self.actions:
-            availableActions.append(action[0])
-        #     legit_move = True
-        #     for next_state in self.getNextStates(action[0]):
-        #         if next_state == self.grid: legit_move = False
-        #     if legit_move: availableActions.append(action[0])
-        
-        return availableActions
+    def getAvailableActions(self) -> list:
+        return [item[0] for item in self.actions]
 
     #gets a list of the action values
-    def getActionValues(self):
+    def getActionValues(self) -> list:
          return [item[1] for item in self.actions]
+
     #Expected return when starting in state and following policy thereafter  
-    def getActionValue(self, action):
+    def getActionValue(self, action) -> float:
         for entry in self.actions:
             if entry[0] == action: return entry[1]
 
-    def setActionValue(self, action, value) -> float:
+    def setActionValue(self, action, value):
         for entry in self.actions:
             if entry[0] == action: entry[1] = value
 
-        #Expected return when starting in state and following policy thereafter  
-    def getEligibilityTrace(self, action):
+    #Expected return when starting in state and following policy thereafter  
+    def getEligibilityTrace(self, action) -> int:
         for entry in self.actions:
             if entry[0] == action: return entry[4]
 
@@ -52,7 +45,7 @@ class State:
         for entry in self.actions:
             if entry[0] == action: entry[4] = value
 
-    def getTimesVisited(self, action):
+    def getTimesVisited(self, action) -> int:
         for entry in self.actions:
             if entry[0] == action: return entry[2]
 
@@ -62,12 +55,12 @@ class State:
                 entry[2] += 1
                 return entry[2]
 
-    def getNextStates(self, action):
+    def getNextStates(self, action) -> list:
         for entry in self.actions:
             if entry[0] == action: return entry[3]
 
     #Sets the next state the action leads to
-    def addNextState(self, action, nextState):
+    def addNextState(self, action, nextState) -> bool:
         #If this was an invalid move (leads to itself), remove this action from list
         if nextState == self:
             for index in self.actions:

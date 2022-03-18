@@ -1,19 +1,9 @@
-import os
-
 from Environment import Environment
 from Episode import Episode
 from Policy import Policy
-from State import State
 from Database import Database
-from MonteCarlo import MonteCarlo
-from GLIEMonteCarlo import GLIEMonteCarlo
 from TemporalDifference import TemporalDifference
 from PythonInterface import PythonInterface
-
-import selenium
-
-from BrowserInterface import Interface
-from MatrixHasher import MatrixHasher
 
 def runSarsa(iterations, alpha, start, end):
     #Iterate with discount rates .1-.9
@@ -50,24 +40,8 @@ def runRandom(iterations, size, win):
     database.save_db()
 
 if __name__ == "__main__":
-    try:
-        for i in range(0, 100):
-            print("Run number: ", i)
-            runSarsa(1000, .005, 1, 1)
-            #runRandom(1000, 2, 16)
-        # GAME_URL = "file:" + os.getcwd() + "/2048-master/index.html"
-        # DATABASE_URL = "file:" + os.getcwd() + "/2048-master/database.pickle"
-        # database = Database.load_db()
-        # interface = Interface(GAME_URL, 3, 32)
-        # environment = Environment(interface = interface ,database=database)
-        # policy = Policy()
-        # iterations = 50000
-        # algorithm = GLIEMonteCarlo(environment, database, policy, iterations)
-        # database.save_db()
 
-
-
-    except selenium.common.exceptions.NoSuchWindowException:
-        # database.save_db()
-        print("Closed!")
+    for i in range(0, 100):
+        print("Run number: ", i)
+        runSarsa(1000, .005, 1, 1)
         
