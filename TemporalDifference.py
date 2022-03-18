@@ -1,5 +1,4 @@
 import os
-import random
 from Environment import Environment
 from Episode import Episode
 from Policy import Policy
@@ -8,8 +7,6 @@ from Database import Database
 from MonteCarlo import MonteCarlo
 from GLIEMonteCarlo import GLIEMonteCarlo
 
-import selenium
-
 from BrowserInterface import Interface
 from PythonInterface import PythonInterface
 from MatrixHasher import MatrixHasher
@@ -17,9 +14,6 @@ from MatrixHasher import MatrixHasher
 ##Sarsa
 def TemporalDifference(alpha, discount_rate, iterations, trace_decay = 0, size = 3, win = 32):
     #Initialize states with V = 0, Q = 0, e = 0
-    GAME_URL = "file:" + os.getcwd() + "/2048-master/index.html"
-    DATABASE_URL = "file:" + os.getcwd() + "/2048-master/TDdatabase.pickle"
-    #database_name = "negative10reward.pickle"
     database_name = "TD_Database_alpha_{:.3f}_discount_{:.3f}_size_{}_win_{}.pickle".format(alpha, discount_rate, size, win)
     print(database_name)
     database = Database.load_db(database_name)

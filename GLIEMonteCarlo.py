@@ -4,7 +4,6 @@ from Policy import Policy
 from Episode import Episode
 from Environment import Environment
 from State import State
-import random
 
 class GLIEMonteCarlo:
     def __init__(self, environment: Environment, database: Database, policy: Policy, iterations = 10000) -> None:
@@ -28,7 +27,7 @@ class GLIEMonteCarlo:
             self.epsilon = 1/self.episodes
             self.policy.epsilon = self.epsilon
 
-    ##TODO: Store N and Q within state, reduce the loops
+    ##Store N and Q within state, reduce the loops
     def update(self, episode: Episode):
         for move in episode.moves:
             state = move[0]

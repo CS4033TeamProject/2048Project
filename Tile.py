@@ -3,7 +3,6 @@ class Tile():
         self.x = position["x"]
         self.y = position["y"]
         self.value = value or 2
-
         self.previousPosition = None
         self.mergedFrom = None # Tracks tiles that merged together
 

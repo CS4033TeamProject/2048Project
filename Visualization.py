@@ -1,6 +1,4 @@
 import matplotlib.pyplot as plt
-import numpy as np
-
 from Database import Database
 
 def plotDatabase(database, label):
