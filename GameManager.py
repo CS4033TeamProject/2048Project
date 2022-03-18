@@ -168,6 +168,8 @@ class GameManager():
         if not self.movesAvailable():
             self.over = True # Game over!
 
+        #self.grid.printToTerminal()
+        #print()
         #self.actuate()
 
     # Get the vector representing the chosen direction
@@ -220,15 +222,15 @@ class GameManager():
             for y in range (self.size):
                 tile = self.grid.cellContent({ "x": x, "y": y })
 
-        if (tile):
-            for direction in range(0, 4): #var direction = 0; direction < 4; direction++) {
-                vector = self.getVector(direction)
-                cell   = { "x": x + vector["x"], "y": y + vector["y"] }
+                if (tile):
+                    for direction in range(0, 4): #var direction = 0; direction < 4; direction++) {
+                        vector = self.getVector(str(direction))
+                        cell   = { "x": x + vector["x"], "y": y + vector["y"] }
 
-                other  = self.grid.cellContent(cell)
+                        other  = self.grid.cellContent(cell)
 
-            if (other or other.value == tile.value):
-                return True # These two tiles can be merged
+                        if (other and other.value == tile.value):
+                            return True # These two tiles can be merged
 
         return False
 

@@ -8,44 +8,53 @@ from Database import Database
 from MonteCarlo import MonteCarlo
 from GLIEMonteCarlo import GLIEMonteCarlo
 from TemporalDifference import TemporalDifference
+from PythonInterface import PythonInterface
 
 import selenium
 
 from BrowserInterface import Interface
 from MatrixHasher import MatrixHasher
 
-def runSarsa():
-        #Iterate forever with discount rates .1-.9
-    while True:
-        alpha = .2
-        discount_rate = .5
-        iterations = 1000
-        while discount_rate < .6:
-            TemporalDifference(alpha=alpha, discount_rate=discount_rate, iterations=iterations)
-            discount_rate += .1
-            discount_rate = round(discount_rate, 1)
+def runSarsa(iterations, alpha, start, end):
+    #Iterate with discount rates .1-.9
+    alpha = alpha
+    discount_rate = start
+    iterations = iterations
+    while discount_rate <= end:
+        TemporalDifference(alpha=alpha, discount_rate=discount_rate, iterations=iterations, size = 2, win = 16)
+        discount_rate += .1
+        discount_rate = round(discount_rate, 1)
 
-def runRandom():
-    iterations = 1000
-    GAME_URL = "file:" + os.getcwd() + "/2048-master/index.html"
-    database = Database.load_db("random_agent_2.pickle")
-    
-    interface = Interface(GAME_URL, 3, 32)
+def runRandom(iterations, size, win):
+    database_name = "random_agent_size_{}_win_{}.pickle".format(size, win)
+    database = Database.load_db(database_name)
+    interface = PythonInterface(size, win)
     environment = Environment(interface = interface ,database=database)
     policy = Policy(epsilon=1)
-    episodeNumber = 0
-    while(iterations > episodeNumber):
-        episodeNumber+=1
-        episode = Episode(environment, policy)
-        episode.run_episode(environment)
+    episode_number = 0
+    while(episode_number < iterations):
+        #Re-initialize eleigibility traces vector to 0.0 at beginning of each episode
+        done = False
+        episode_number += 1
+        episode = Episode(None, None)
+        environment.restart()
+        #print(episode_number)
+        while(not done):
+            results = environment.step(policy)
+            done = results[3]
+            win = results[4]
+            if win: done = True
+        if win: episode.win = True
         database.addEpisode(episode)
 
     database.save_db()
 
 if __name__ == "__main__":
     try:
-        runSarsa()
-        #runRandom()
+        for i in range(0, 100):
+            print("Run number: ", i)
+            runSarsa(1000, .05, 0, 0)
+            runRandom(1000, 2, 16)
         # GAME_URL = "file:" + os.getcwd() + "/2048-master/index.html"
         # DATABASE_URL = "file:" + os.getcwd() + "/2048-master/database.pickle"
         # database = Database.load_db()

@@ -11,18 +11,19 @@ from GLIEMonteCarlo import GLIEMonteCarlo
 import selenium
 
 from BrowserInterface import Interface
+from PythonInterface import PythonInterface
 from MatrixHasher import MatrixHasher
 
 ##Sarsa
-def TemporalDifference(alpha, discount_rate, iterations, trace_decay = 0):
+def TemporalDifference(alpha, discount_rate, iterations, trace_decay = 0, size = 3, win = 32):
     #Initialize states with V = 0, Q = 0, e = 0
     GAME_URL = "file:" + os.getcwd() + "/2048-master/index.html"
     DATABASE_URL = "file:" + os.getcwd() + "/2048-master/TDdatabase.pickle"
     #database_name = "negative10reward.pickle"
-    database_name = "TD_Database_alpha_{:.1f}_discount_{:.1f}.pickle".format(alpha, discount_rate)
+    database_name = "TD_Database_alpha_{:.2f}_discount_{:.2f}_size_{}_win_{}.pickle".format(alpha, discount_rate, size, win)
     print(database_name)
     database = Database.load_db(database_name)
-    interface = Interface(GAME_URL, 3, 32)
+    interface = PythonInterface(size, win)
     environment = Environment(interface = interface ,database=database)
     policy = Policy(epsilon=0)
     episode_number = 0
@@ -34,7 +35,7 @@ def TemporalDifference(alpha, discount_rate, iterations, trace_decay = 0):
         episode_number += 1
         episode = Episode(None, None)
         state = environment.restart()
-        print(episode_number)
+        #print(episode_number)
         while(not done):
             results = environment.step(policy)
             nextState = results[0]
