@@ -53,8 +53,8 @@ if __name__ == "__main__":
     try:
         for i in range(0, 100):
             print("Run number: ", i)
-            runSarsa(1000, .05, 0, 0)
-            runRandom(1000, 2, 16)
+            runSarsa(1000, .005, 1, 1)
+            #runRandom(1000, 2, 16)
         # GAME_URL = "file:" + os.getcwd() + "/2048-master/index.html"
         # DATABASE_URL = "file:" + os.getcwd() + "/2048-master/database.pickle"
         # database = Database.load_db()

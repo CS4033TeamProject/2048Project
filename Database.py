@@ -39,7 +39,7 @@ class Database:
 
 
     def load_db(FILE_URL = 'database.pickle'):
-
+        FILE_URL = "Databases/" + FILE_URL
         try:
             with open(FILE_URL, "rb") as f:
                 return pickle.load(f)

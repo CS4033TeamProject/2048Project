@@ -20,7 +20,7 @@ def TemporalDifference(alpha, discount_rate, iterations, trace_decay = 0, size =
     GAME_URL = "file:" + os.getcwd() + "/2048-master/index.html"
     DATABASE_URL = "file:" + os.getcwd() + "/2048-master/TDdatabase.pickle"
     #database_name = "negative10reward.pickle"
-    database_name = "TD_Database_alpha_{:.2f}_discount_{:.2f}_size_{}_win_{}.pickle".format(alpha, discount_rate, size, win)
+    database_name = "TD_Database_alpha_{:.3f}_discount_{:.3f}_size_{}_win_{}.pickle".format(alpha, discount_rate, size, win)
     print(database_name)
     database = Database.load_db(database_name)
     interface = PythonInterface(size, win)
